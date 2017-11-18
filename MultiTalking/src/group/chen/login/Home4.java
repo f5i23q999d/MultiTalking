@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 //import javafx.util.converter.LocalDateTimeStringConverter;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import diu.swe.habib.JPanelSlider.JPanelSlider;
+//import diu.swe.habib.JPanelSlider.JPanelSlider;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
