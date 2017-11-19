@@ -1,6 +1,5 @@
 package group.li;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -50,10 +49,10 @@ public class ListPanel extends JPanel{
 	
 	
 	int id;
-	String name="好友";
-	String context="[动画表情]";
-	String time="14:46";
-	ImageIcon u;
+	String name="3";//用户昵称
+	String context="[动画表情]";//对话内容
+	String time="14:46";//时间
+	ImageIcon u;//头像
 	JLabel ulabel;
 	JLabel namelabel;
 	JLabel contextlabel;
@@ -74,7 +73,7 @@ public class ListPanel extends JPanel{
 		
 		namelabel = new JLabel(name);
 		namelabel.setBounds(74, 10, 54, 15);
-		Font font1 = new java.awt.Font("宋体", Font.BOLD,12);
+		Font font1 = new java.awt.Font("黑体", Font.BOLD,12);
 		namelabel.setFont(font1);
 		add(namelabel);
 		

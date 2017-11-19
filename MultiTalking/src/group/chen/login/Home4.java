@@ -32,6 +32,7 @@ import group.multiTalking.DAO;
 import group.li.UI;
 import group.lin.base.BaseDAO;
 import group.lin.entity.UserDAO;
+import javax.swing.JButton;
 /**
  *
  * @author proxc
@@ -271,7 +272,7 @@ public class Home4 extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
         	jPanel5Layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jPanel5Layout.createSequentialGroup()
-        			.addGap(0, 70, Short.MAX_VALUE)
+        			.addContainerGap(70, Short.MAX_VALUE)
         			.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
         				.addComponent(jSeparator6, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
         				.addComponent(password_Signup, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
@@ -326,7 +327,7 @@ public class Home4 extends javax.swing.JFrame {
         					.addComponent(swipeTo_sginIn)))
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(31, Short.MAX_VALUE))
+        			.addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel5.setLayout(jPanel5Layout);
 
@@ -393,6 +394,7 @@ public class Home4 extends javax.swing.JFrame {
             		if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForPassword(userName_SignIn.getText(),password)) {
             			
             			UI T2=new UI();
+            			T2.getContentPane().update(null);
             			T2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
             			T2.setSize(970,550);
             			T2.setVisible(true);
