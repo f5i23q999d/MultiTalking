@@ -1,5 +1,4 @@
 package group.li;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,6 +7,7 @@ import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,25 +15,41 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Choice;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class UI extends JFrame{
-	
+	//存放每一项好友对话面板
 	ArrayList<ListPanel> list=new ArrayList<ListPanel>();
+	//当前页数
 	int currentPage=1;
+	//对话框或联系人所对应的面板
 	JPanel panel;
-	
+	//左侧对话按钮
 	JButton chatButton;
+	//左侧联系人按钮
 	JButton contactButton;
-	ContactPanel CP=new ContactPanel();
+	//联系人面板
+	static ContactPanel CP=new ContactPanel();
+	//移动至。。
+	static JComboBox MOVE;
+	
+	//聊天实现
 	public static JPanel panel_2;
 	
 	
+	
+	//未每一个对话项实现选中效果
 	public void addMouseListener(int i)
 	{
 		
@@ -62,7 +78,7 @@ public class UI extends JFrame{
 		
 	}
 	
-	
+	//翻页效果
 	public void pageSwitch(int k)
 	{
 		
@@ -86,7 +102,7 @@ public class UI extends JFrame{
 			addMouseListener(i);
 					}
 		
-		panel.revalidate();//ˢ��ҳ�棬������֤
+		panel.revalidate();//必须有֤
 		panel.repaint();
 		
 		
@@ -110,7 +126,7 @@ public class UI extends JFrame{
 				
 			}
 		});
-		lastPage.setBounds(55, 499, 93, 23);
+		lastPage.setBounds(55, 499, 68, 23);
 		getContentPane().add(lastPage);
 		
 		JButton nextPage = new JButton("\u4E0B\u4E00\u9875");
@@ -120,7 +136,7 @@ public class UI extends JFrame{
 				
 			}
 		});
-		nextPage.setBounds(209, 499, 93, 23);
+		nextPage.setBounds(233, 499, 68, 23);
 		getContentPane().add(nextPage);
 		
 		JPanel panel_1 = new JPanel();
@@ -165,7 +181,7 @@ public class UI extends JFrame{
 		});
 	
 		contactButton.setIcon(new ImageIcon(UI.class.getResource("/tab/8.png")));
-		contactButton.setBounds(0, 135, 55, 55);
+		contactButton.setBounds(0, 145, 55, 55);
 		panel_1.add(contactButton);
 		
 		JButton button_1 = new JButton("");
@@ -184,13 +200,96 @@ public class UI extends JFrame{
 		panel_2.setLayout(null);
 		
 		JLabel teatLabel = new JLabel("\u6B63\u5728\u4E0E   \u5BF9\u8BDD");
-		teatLabel.setFont(new Font("����", Font.PLAIN, 26));
+		teatLabel.setFont(new Font("宋体", Font.PLAIN, 26));
 		teatLabel.setBounds(112, 166, 186, 157);
 		panel_2.add(teatLabel);
 		
+		JButton delButton = new JButton("删除");
+		delButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DefaultTreeModel tmp=(DefaultTreeModel)CP.tree.getModel();
+				tmp.removeNodeFromParent((DefaultMutableTreeNode)CP.tree.getLastSelectedPathComponent());
 		
+			}
+		});
+		delButton.setBounds(128, 499, 68, 23);
+		getContentPane().add(delButton);
+		
+		JLabel label = new JLabel("移动到：");
+		label.setBounds(329, 503, 54, 15);
+		getContentPane().add(label);
+		
+		
+		
+		TreeNode node = (TreeNode) CP.tree.getModel().getRoot();
+		//node.getChildAt(i).toString()
+		
+		MOVE = new JComboBox();
+		MOVE.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				
+				
+				if(arg0.getStateChange()==ItemEvent.SELECTED)
+					
+				{
+				TreeNode node = (TreeNode) CP.tree.getModel().getRoot();
+				DefaultTreeModel tmp=(DefaultTreeModel)CP.tree.getModel();
+				
+				int index=-1;
+				for(int i=0;i<node.getChildCount();i++)
+				{
+					
+					if(ContactPanel.tree.getLastSelectedPathComponent().toString().equals(node.getChildAt(i).toString()))
+					{
+						//如果选的是父节点就退出操作
+						return;
+						
+					}
+					
+					
+					if(node.getChildAt(i).toString().equals(MOVE.getSelectedItem().toString()))
+							{
+							index=i;
+							
+							//记录移动目的组的index
+						
+							
+							}
+					
+				
+					
+				}
+				DefaultMutableTreeNode getSelect=(DefaultMutableTreeNode)ContactPanel.tree.getLastSelectedPathComponent();
+				DefaultMutableTreeNode getTo=(DefaultMutableTreeNode)node.getChildAt(index);
+				DefaultMutableTreeNode newNode=new DefaultMutableTreeNode(ContactPanel.tree.getLastSelectedPathComponent());
+				
+				System.out.println(getSelect);
+				System.out.println(getTo);
+				System.out.println(getTo.getChildCount());
+				tmp.insertNodeInto(newNode, getTo,getTo.getChildCount());
+				tmp.removeNodeFromParent((DefaultMutableTreeNode)CP.tree.getLastSelectedPathComponent());
+				
+				CP.tree.revalidate();
+				//CP.tree.updateUI();  不能updateUI，不然失去对其效果
+				
+				CP.tree.repaint();
+					
+				}
+				
+				
+			}
+		});
+		
+		DefaultComboBoxModel CB=new DefaultComboBoxModel();
+		for(int i=0;i<node.getChildCount();i++)
+			CB.addElement(node.getChildAt(i).toString());
+		MOVE.setModel(CB);
+		MOVE.setBounds(375, 500, 94, 21);
+		
+		
+		getContentPane().add(MOVE);
 
-
+System.out.println(CP.tree.getRowCount());
 	
 		
 		list.add(new ListPanel());
@@ -221,6 +320,8 @@ public class UI extends JFrame{
 		list.add(new ListPanel());
 		list.add(new ListPanel());
 		int total;
+		
+		
  if(list.size()>10)
 	 total=10;
  else
@@ -253,5 +354,4 @@ public class UI extends JFrame{
 		T2.setVisible(true);
 
 	}
-	 
 }

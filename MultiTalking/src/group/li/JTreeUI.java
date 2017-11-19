@@ -1,5 +1,4 @@
 package group.li;
-
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
