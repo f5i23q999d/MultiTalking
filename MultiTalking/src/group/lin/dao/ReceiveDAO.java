@@ -29,7 +29,7 @@ public class ReceiveDAO extends BaseDAO {
 		}
 		
 		List<ChatRecordDAO> list = new ArrayList<ChatRecordDAO>(); 
-		String sql="select senderId,time,contant from CHATRECORD where receiveId=? ";
+		String sql="select senderId,time,content from CHATRECORD where receiverId=? order by time desc";
 		Object[] param = {user.getUserId()};
 		rs = db.executeQuery(sql, param);
 		try{
@@ -37,10 +37,13 @@ public class ReceiveDAO extends BaseDAO {
 				buildList(rs, list, i);
 				i++;
 			}
+			
 			if(list.size() > 0) {
 				result = new String[list.size()][];
 				for(int j = 0; j < list.size(); j++) {
+					
 					buildResult(result, list, j);
+				
 				}
 			}
 		} catch (SQLException e) {
@@ -56,7 +59,10 @@ public class ReceiveDAO extends BaseDAO {
 	private void buildResult(String[][] result, List<ChatRecordDAO> list, int j) {
 		// TODO Auto-generated method stub
 		ChatRecordDAO cr = list.get(j);
-		result[j][0] = String.valueOf(cr.getSenderId());
+		
+		
+		result[j]= new String[3];
+		result[j][0] = cr.getSenderId();
 		result[j][1] = String.valueOf(cr.getTime());
 		result[j][2] = cr.getContent();
 		
@@ -66,7 +72,8 @@ public class ReceiveDAO extends BaseDAO {
 	private void buildList(ResultSet rs, List<ChatRecordDAO> list, int i) throws SQLException {
 		// TODO Auto-generated method stub
 		ChatRecordDAO cr = new ChatRecordDAO();
-		cr.setSenderId(rs.getInt("senderId"));
+		
+		cr.setSenderId(rs.getString("senderId"));
 		cr.setTime(rs.getDate("time"));
 		cr.setContent(rs.getString("content"));
 		list.add(cr);

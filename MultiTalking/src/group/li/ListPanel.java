@@ -58,13 +58,13 @@ public class ListPanel extends JPanel{
 	JLabel contextlabel;
 	JLabel timelabel;
 	
-	public ListPanel()
+	public ListPanel(String ID)
 	{
 		
 		
 		setLayout(null);
 		setBackground(Color.WHITE);
-		
+		name=ID;
 		
 		ulabel = new JLabel("");
 		ulabel.setIcon(new ImageIcon(ListPanel.class.getResource("/icon/1.png")));

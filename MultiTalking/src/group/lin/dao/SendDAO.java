@@ -19,7 +19,7 @@ public class SendDAO extends BaseDAO {
 	public boolean addChatRecord(ChatRecordDAO record) throws SQLException {
 		boolean result = false;
 		
-		if(record.getSenderId() == 0 || record.getReceiverId() == 0) {
+		if(record.getSenderId() == null || record.getReceiverId() == null) {
 			return result;
 		}
 		String sql="INSERT INTO `multiTalking`.`CHATRECORD` (`senderId`, `receiverId`, `time`, `content`) VALUES (?, ?, ?, ?)";

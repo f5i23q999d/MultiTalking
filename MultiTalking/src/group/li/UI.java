@@ -30,27 +30,31 @@ import java.awt.event.ItemEvent;
 
 public class UI extends JFrame{
 	//存放每一项好友对话面板
-	ArrayList<ListPanel> list=new ArrayList<ListPanel>();
+	static ArrayList<ListPanel> list=new ArrayList<ListPanel>();
 	//当前页数
-	int currentPage=1;
+	static int currentPage=1;
 	//对话框或联系人所对应的面板
-	JPanel panel;
+	static JPanel panel;
 	//左侧对话按钮
-	JButton chatButton;
+	static JButton chatButton;
 	//左侧联系人按钮
-	JButton contactButton;
+	static JButton contactButton;
 	//联系人面板
-	static ContactPanel CP=new ContactPanel();
+	static ContactPanel CP;
 	//移动至。。
 	static JComboBox MOVE;
 	
 	//聊天实现
 	public static JPanel panel_2;
 	
+	//设置
+	static SettingPanel SP=new SettingPanel();
 	
+	//保存当前账号ID
+	static String ID;
 	
 	//未每一个对话项实现选中效果
-	public void addMouseListener(int i)
+	public static void addMouseListener(int i)
 	{
 		
 		System.out.println("listener:"+i);
@@ -79,12 +83,12 @@ public class UI extends JFrame{
 	}
 	
 	//翻页效果
-	public void pageSwitch(int k)
+	static public void pageSwitch(int k)
 	{
 		
 		panel.removeAll();
 		panel.setLayout(new GridLayout(10, 1, 0, 0));
-		
+		panel.setBackground(Color.WHITE);
 		currentPage+=k;
 		int total=list.size();
 		 if(list.size()-(currentPage-1)*10>10)
@@ -96,7 +100,7 @@ public class UI extends JFrame{
 		for(int i=(currentPage-1)*10;i<total;i++)
 		{
 			
-			list.get(i).setName("好友"+i);
+			//list.get(i).setName("好友"+i);
 			list.get(i).setU(new ImageIcon(UI.class.getResource("/icon/"+i+".png")));
 			panel.add(list.get(i));
 			addMouseListener(i);
@@ -109,34 +113,37 @@ public class UI extends JFrame{
 	}
 	
 	
-	public UI() {
+	public UI(String ID) {
 		
-		
+		UI.ID=ID;//记录ID
+		CP=new ContactPanel(ID);
+		System.out.println("用户"+UI.ID+"登陆");
 		getContentPane().setLayout(null);
 		
 		panel = new JPanel();
 		panel.setBounds(55, 0, 245, 500);
 		getContentPane().add(panel);
+
 		panel.setLayout(new GridLayout(10, 1, 0, 0));
 		
-		JButton lastPage = new JButton("\u4E0A\u4E00\u9875");
+		JButton lastPage = new JButton("<<");
 		lastPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				pageSwitch(-1);
 				
 			}
 		});
-		lastPage.setBounds(55, 499, 68, 23);
+		lastPage.setBounds(55, 499, 45, 23);
 		getContentPane().add(lastPage);
 		
-		JButton nextPage = new JButton("\u4E0B\u4E00\u9875");
+		JButton nextPage = new JButton(">>");
 		nextPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				pageSwitch(1);
 				
 			}
 		});
-		nextPage.setBounds(233, 499, 68, 23);
+		nextPage.setBounds(256, 499, 45, 23);
 		getContentPane().add(nextPage);
 		
 		JPanel panel_1 = new JPanel();
@@ -185,6 +192,18 @@ public class UI extends JFrame{
 		panel_1.add(contactButton);
 		
 		JButton button_1 = new JButton("");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SP.setSize(200, 200);
+				//SP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				SP.setLocale(null);
+				SP.setVisible(true);
+				
+				
+				
+			}
+		});
 		button_1.setIcon(new ImageIcon(UI.class.getResource("/tab/10.png")));
 		button_1.setBounds(0, 435, 55, 55);
 		panel_1.add(button_1);
@@ -212,7 +231,7 @@ public class UI extends JFrame{
 		
 			}
 		});
-		delButton.setBounds(128, 499, 68, 23);
+		delButton.setBounds(178, 499, 81, 23);
 		getContentPane().add(delButton);
 		
 		JLabel label = new JLabel("移动到：");
@@ -221,7 +240,9 @@ public class UI extends JFrame{
 		
 		
 		
-		TreeNode node = (TreeNode) CP.tree.getModel().getRoot();
+		
+		
+		TreeNode node = (TreeNode)CP.tree.getModel().getRoot();
 		//node.getChildAt(i).toString()
 		
 		MOVE = new JComboBox();
@@ -269,6 +290,8 @@ public class UI extends JFrame{
 				tmp.insertNodeInto(newNode, getTo,getTo.getChildCount());
 				tmp.removeNodeFromParent((DefaultMutableTreeNode)CP.tree.getLastSelectedPathComponent());
 				
+				
+				
 				CP.tree.revalidate();
 				//CP.tree.updateUI();  不能updateUI，不然失去对其效果
 				
@@ -280,6 +303,10 @@ public class UI extends JFrame{
 			}
 		});
 		
+		
+		
+		
+		
 		DefaultComboBoxModel CB=new DefaultComboBoxModel();
 		for(int i=0;i<node.getChildCount();i++)
 			CB.addElement(node.getChildAt(i).toString());
@@ -288,10 +315,24 @@ public class UI extends JFrame{
 		
 		
 		getContentPane().add(MOVE);
+		
+		JButton addContactGroupbutton = new JButton("添加分组");
+		addContactGroupbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ContactGroupAdd fa=new ContactGroupAdd();
+				fa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				fa.setSize(500, 300);
+				fa.setLocale(null);
+				fa.setVisible(true);
+				
+			}
+		});
+		addContactGroupbutton.setBounds(97, 499, 81, 23);
+		getContentPane().add(addContactGroupbutton);
 
-System.out.println(CP.tree.getRowCount());
+		System.out.println(CP.tree.getRowCount());
 	
-		
+		/*
 		list.add(new ListPanel());
 		list.add(new ListPanel());
 		list.add(new ListPanel());
@@ -319,6 +360,10 @@ System.out.println(CP.tree.getRowCount());
 		list.add(new ListPanel());
 		list.add(new ListPanel());
 		list.add(new ListPanel());
+		*/
+		
+		
+		
 		int total;
 		
 		
@@ -339,8 +384,7 @@ System.out.println(CP.tree.getRowCount());
 
 	
 		
-		
-		
+		pageSwitch(0);//使panel显形
 }
 	
 	
@@ -348,7 +392,7 @@ System.out.println(CP.tree.getRowCount());
 	
 	
 	public static void main(String[] args) {
-		UI T2=new UI();
+		UI T2=new UI("Kiux");
 		T2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		T2.setSize(970,550);
 		T2.setVisible(true);

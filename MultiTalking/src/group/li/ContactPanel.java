@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -10,22 +11,78 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import group.lin.dao.ContactListDAO;
+import group.lin.entity.UserDAO;
+
 
 public class ContactPanel extends JScrollPane{
 	
 	JScrollPane scrollPane;//创建滚动条方便同一panel内显示
 	static JTree tree= new JTree();//好友列表
+	String ID;
 	
-	
-	public ContactPanel()
+	public ContactPanel(String ID)
 	{
 		
 	super(tree);//tree作为形参调入滚动条中，组合
-	
+	this.ID=ID;
 	
 	tree.setModel(new DefaultTreeModel(
 		new DefaultMutableTreeNode("JTree") {
 			{
+				
+				String record[][];
+				UserDAO t=new UserDAO();
+				System.out.println(ID);
+				t.setUserId(ID);
+				ContactListDAO r=new ContactListDAO();
+				//先从数据库中查找好友信息并且存入record中，其中每项里，[0]值接受方，[1]值对应组名
+				record=r.queryForContactList(t);
+				
+				
+				DefaultMutableTreeNode node_1;
+			if(record!=null)//防止新用户会报错
+			{
+
+				for(int i=0;i<record.length;i++)
+				{
+					//System.out.println("receiver:"+record[i][0]+"  i="+i);
+					boolean exist=false;
+					int num=0;
+					for(int j=0;j<this.getRoot().getChildCount();j++)
+						if(record[i][1].equals(this.getRoot().getChildAt(j).toString()))
+							{
+							
+							exist=true;
+							num=j;
+							//寻找是否有相同分组并且记录下其对应的位置
+							}
+					
+					if(!exist)
+					{
+					node_1=new DefaultMutableTreeNode(record[i][1]);
+					node_1.add(new DefaultMutableTreeNode(record[i][0]));
+					add(node_1);
+					//不存在相同分组时先新建组名，再插入好友
+					}
+					else
+					{
+					DefaultTreeModel tmp=new DefaultTreeModel(this.getRoot().getChildAt(num));
+					System.out.println("num="+num);
+					System.out.println(this.getRoot().getChildAt(num));
+					tmp.insertNodeInto(new DefaultMutableTreeNode(record[i][0]), (DefaultMutableTreeNode)this.getRoot().getChildAt(num), this.getRoot().getChildAt(num).getChildCount());
+					//存在相同分组时，先定位其位置，再插入好友
+					}
+				}
+			}
+			else
+			{
+				//避免没有好友分组的情况下不能添加好友分组，存在BUG
+				node_1=new DefaultMutableTreeNode();
+				add(node_1);
+				
+			}
+				/*
 				DefaultMutableTreeNode node_1;
 				node_1 = new DefaultMutableTreeNode("123");
 					node_1.add(new DefaultMutableTreeNode("456"));
@@ -44,6 +101,7 @@ public class ContactPanel extends JScrollPane{
 					node_1.add(new DefaultMutableTreeNode("啊手动阀"));
 					node_1.add(new DefaultMutableTreeNode("㽶"));
 				add(node_1);
+				*/
 			}
 		}
 	));
@@ -51,14 +109,37 @@ public class ContactPanel extends JScrollPane{
 	this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	this.setBounds(0, 0, 245, 500);
 	tree.addMouseListener(new MouseAdapter(){public void mouseClicked(MouseEvent e){
-		
-		if(e.getClickCount()==2)//鼠标点击两下
+		 DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();  
+		if(e.getClickCount()==2&&node.getLevel()==2)//鼠标点击两下并且是子节点
 		{
 			
 			Object obj=UI.panel_2.getComponent(0);
 			JLabel a=(JLabel)obj;
 			
+			//检查是否存在，添加两次
+			boolean exist=false;
+			for(int i=0;i<UI.list.size();i++)
+				if(tree.getLastSelectedPathComponent().toString().equals(UI.list.get(i).name))
+					exist=true;
+		
+			if(!exist)
+			{
+			UI.list.add(new ListPanel(tree.getLastSelectedPathComponent().toString()));
+			}
+			
+			UI.pageSwitch(0);//切换页面并刷新
+			UI.contactButton.setIcon(new ImageIcon(UI.class.getResource("/tab/8.png")));//调整按钮样式
+			UI.chatButton.setIcon(new ImageIcon(UI.class.getResource("/tab/7.png")));//调整按钮样式
+			
+			for(int i=0;i<UI.list.size();i++)
+				if(tree.getLastSelectedPathComponent().toString().equals(UI.list.get(i).name))
+					UI.list.get(i).setBackground(new Color(200,200,200));
+				else
+					UI.list.get(i).setBackground(Color.WHITE);
+			//切换背景色		
+	
 			a.setText("正在和"+tree.getLastSelectedPathComponent().toString()+"对话");			
+			
 			
 		}
 		

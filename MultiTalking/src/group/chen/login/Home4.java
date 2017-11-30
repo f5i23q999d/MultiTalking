@@ -392,12 +392,14 @@ public class Home4 extends javax.swing.JFrame {
             	}
             	if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForUserName(userName_SignIn.getText())) {
             		if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForPassword(userName_SignIn.getText(),password)) {
-            			
-            			UI T2=new UI();
+            			dispose();//关闭登陆窗口
+            			UI T2=new UI(userName_SignIn.getText());
             			T2.getContentPane().update(null);
-            			T2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            			T2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             			T2.setSize(970,550);
             			T2.setVisible(true);
+            			
+            			
             		}
             	} else {
             		JOptionPane.showMessageDialog(null, "账号不存在");
