@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class ContactDAO implements Serializable{
-	protected int senderId,receiverId;
+	protected String senderId,receiverId;
 	protected boolean accept;
-	protected String group;
+	protected String GroupName;
 
-	public int getSenderId() {
+	public String getSenderId() {
 		return senderId;
 	}
-	public void setSenderId(int senderId) {
+	public void setSenderId(String senderId) {
 		this.senderId = senderId;
 	}
-	public int getReceiverId() {
+	public String getReceiverId() {
 		return receiverId;
 	}
-	public void setReceiverId(int receiverId) {
+	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
 	public boolean isAccept() {
@@ -26,11 +26,12 @@ public class ContactDAO implements Serializable{
 	public void setAccept(boolean accept) {
 		this.accept = accept;
 	}
-	public String getGroup() {
-		return group;
+	public String getGroupName() {
+		return GroupName;
 	}
-	public void setGroup(String group) {
-		this.group = group;
+	public void setGroupName(String groupName) {
+		GroupName = groupName;
 	}
+
 	
 }

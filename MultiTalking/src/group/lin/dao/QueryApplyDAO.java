@@ -8,19 +8,20 @@ import java.util.List;
 import group.lin.base.BaseDAO;
 import group.lin.entity.UserDAO;
 import group.lin.entity.ChatRecordDAO;
+import group.lin.entity.ContactDAO;
 
-public class ReceiveDAO extends BaseDAO {
-	private static ReceiveDAO rd = null;
+public class QueryApplyDAO extends BaseDAO {
+	private static QueryApplyDAO rd = null;
 	
-	public static synchronized ReceiveDAO getInstance() {
+	public static synchronized QueryApplyDAO getInstance() {
 		if(rd == null) {
-			rd = new ReceiveDAO();
+			rd = new QueryApplyDAO();
 		}
 		return rd;
 	}
 	
-	//返回聊天记录的查询结果。
-	public String[][] queryForChatRecord(UserDAO user) {
+
+	public String[][] queryApply(UserDAO user) {
 		String[][] result = null;
 		int i = 0;
 		//如何判断是否有useID？
@@ -28,8 +29,8 @@ public class ReceiveDAO extends BaseDAO {
 			return result;
 		}
 		
-		List<ChatRecordDAO> list = new ArrayList<ChatRecordDAO>(); 
-		String sql="select senderId,time,content from CHATRECORD where receiverId=? order by time desc";
+		List<ContactDAO> list = new ArrayList<ContactDAO>(); 
+		String sql="select senderId,GroupName from CONTACT where accept=0 and receiverId=?";
 		Object[] param = {user.getUserId()};
 		rs = db.executeQuery(sql, param);
 		try{
@@ -56,26 +57,25 @@ public class ReceiveDAO extends BaseDAO {
 	}
 
 	//将list值放到result中。
-	private void buildResult(String[][] result, List<ChatRecordDAO> list, int j) {
+	private void buildResult(String[][] result, List<ContactDAO> list, int j) {
 		// TODO Auto-generated method stub
-		ChatRecordDAO cr = list.get(j);
+		ContactDAO cr = list.get(j);
 		
 		
-		result[j]= new String[3];
+		result[j]= new String[2];
 		result[j][0] = cr.getSenderId();
-		result[j][1] = String.valueOf(cr.getTime());
-		result[j][2] = cr.getContent();
+		result[j][1] = cr.getGroupName();
+	
 		
 	}
 
 	//将rs中的记录放到ChatRecordList中。
-	private void buildList(ResultSet rs, List<ChatRecordDAO> list, int i) throws SQLException {
+	private void buildList(ResultSet rs, List<ContactDAO> list, int i) throws SQLException {
 		// TODO Auto-generated method stub
-		ChatRecordDAO cr = new ChatRecordDAO();
+		ContactDAO cr = new ContactDAO();
 		
 		cr.setSenderId(rs.getString("senderId"));
-		cr.setTime(rs.getDate("time"));
-		cr.setContent(rs.getString("content"));
+		cr.setGroupName(rs.getString("GroupName"));
 		list.add(cr);
 		
 	}
