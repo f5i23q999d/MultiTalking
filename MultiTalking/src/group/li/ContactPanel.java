@@ -78,7 +78,7 @@ public class ContactPanel extends JScrollPane{
 			else
 			{
 				//避免没有好友分组的情况下不能添加好友分组，存在BUG
-				node_1=new DefaultMutableTreeNode();
+				node_1=new DefaultMutableTreeNode("我的好友");
 				add(node_1);
 				
 			}
