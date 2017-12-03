@@ -176,7 +176,7 @@ public class showPersonInfo {
 		frame.getContentPane().add(btnApply);
 		
 		
-		
+		 
 		
 	}
 	
