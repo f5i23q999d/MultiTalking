@@ -22,7 +22,7 @@ public class ListPanel extends JPanel{
 		return context;
 	}
 	public void setContext(String context) {
-		System.out.println(context);
+		//System.out.println(context);
 		contextlabel.setText(context);
 		this.context = context;
 	
@@ -57,13 +57,18 @@ public class ListPanel extends JPanel{
 	JLabel namelabel;
 	JLabel contextlabel;
 	JLabel timelabel;
+	JPanel chatpanel;
 	
 	public ListPanel(String ID)
 	{
 		
 		
 		setLayout(null);
-		setBackground(Color.WHITE);
+		setBackground(new Color(228,228,228));
+		
+		chatpanel=new ChatPanel(ID);
+		
+		
 		name=ID;
 		
 		ulabel = new JLabel("");
@@ -78,13 +83,13 @@ public class ListPanel extends JPanel{
 		add(namelabel);
 		
 		contextlabel = new JLabel(context);
-		contextlabel.setBounds(74, 33, 69, 15);
+		contextlabel.setBounds(74, 33, 98, 15);
 		add(contextlabel);
 		
 		timelabel = new JLabel(time);
 		timelabel.setBounds(168, 10, 54, 15);
 		add(timelabel);
-		System.out.println("luo");
+		
 		
 	}
 	

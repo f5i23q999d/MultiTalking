@@ -52,12 +52,12 @@ public class FriendAdd extends JFrame{
 					//System.out.println("userid:"+record[a][0]+"	name:"+record[a][1]+"    info:"+record[a][2]);
 					if(record[a][0].equals(IDInput.getText()))
 					{
-						System.out.println("更改前："+theID.getText()+"	"+theName.getText()+"     "+theInfo.getText());
+						//System.out.println("更改前："+theID.getText()+"	"+theName.getText()+"     "+theInfo.getText());
 						theID.setText(record[a][0]);
 						theName.setText(record[a][1]);
 						theInfo.setText(record[a][2]);
 						exist=true;
-						System.out.println("更改后："+theID.getText()+"	"+theName.getText()+"     "+theInfo.getText());
+						//System.out.println("更改后："+theID.getText()+"	"+theName.getText()+"     "+theInfo.getText());
 						
 					}
 				

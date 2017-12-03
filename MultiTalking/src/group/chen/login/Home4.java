@@ -396,7 +396,8 @@ public class Home4 extends javax.swing.JFrame {
             			UI T2=new UI(userName_SignIn.getText());
             			T2.getContentPane().update(null);
             			T2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            			T2.setSize(970,550);
+            			T2.setSize(860,550);
+            			T2.setResizable(false);
             			T2.setVisible(true);
             			
             			

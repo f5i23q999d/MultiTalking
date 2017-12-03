@@ -39,7 +39,9 @@ public class JTreeRender extends DefaultTreeCellRenderer{
 		this.setFont(this.getFont(20.0f));
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;  
        
-        if (node.getLevel() == 1) {  //父节点
+        if (node.getLevel() == 1) {         	//父节点
+        	
+        	//this.setBackground(new Color(228,228,228));
             if (expanded) {  
                 this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icon/151.png")));  
             } else {  
@@ -48,6 +50,7 @@ public class JTreeRender extends DefaultTreeCellRenderer{
         }  
        
         if (node.getLevel() == 2) {  //子节点
+        	//this.setBackground(new Color(228,228,228));
             this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icon/big1.png")));  
         }
         this.setOpaque(true);//设置透明，否则Text不能与背景色融合
@@ -65,7 +68,7 @@ public class JTreeRender extends DefaultTreeCellRenderer{
         	
         }
         else
-        	this.setBackground(Color.WHITE);//这里要适应登陆界面的主题
+        	this.setBackground(new Color(228,228,228));//这里要适应登陆界面的主题
         return this;  
     }  
 
