@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -25,8 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.mysql.jdbc.Blob;
 
 import group.lin.util.DBUtil;
 /*
@@ -64,6 +65,41 @@ public class showPersonInfo {
 		initialize();
 
 	}
+	
+	/*
+	 * 从网络上读取图片
+	 * 
+	 */
+	public void getImageFromServer(String imgUrl) {
+		//String imgUrl="";//图片地址
+	    try {
+	      // 构造URL
+	      URL url = new URL(imgUrl);
+	      // 打开连接
+	      URLConnection con = url.openConnection();
+	      // 输入流
+	      InputStream is = con.getInputStream();
+	      // 1K的数据缓冲
+	      byte[] bs = new byte[1024];
+	      // 读取到的数据长度
+	      int len;
+	      // 输出的文件流
+	      OutputStream os = new FileOutputStream("c:\\image.jpg");//保存路径
+	      // 开始读取
+	      while ((len = is.read(bs)) != -1) {
+	        os.write(bs, 0, len);
+	      }
+	      // 完毕，关闭所有链接
+	      os.close();
+	      is.close();
+	    } catch (MalformedURLException e) {
+	      e.printStackTrace();
+	    } catch (FileNotFoundException e) {
+	      e.printStackTrace();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -86,6 +122,7 @@ public class showPersonInfo {
 			if (rs.next()) {
 				DBusername = rs.getString(1);
 				DBportrait=rs.getString(2);
+				
 				DBtele = rs.getString(3);
 				DBintroduction = rs.getString(4);
 			}
