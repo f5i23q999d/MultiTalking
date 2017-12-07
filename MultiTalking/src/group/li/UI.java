@@ -9,6 +9,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import group.li.thread.ChatClient;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -32,11 +34,11 @@ import java.awt.FlowLayout;
 
 public class UI extends JFrame{
 	//存放每一项好友对话面板
-	static ArrayList<ListPanel> list=new ArrayList<ListPanel>();
+	static public ArrayList<ListPanel> list=new ArrayList<ListPanel>();
 	//当前页数
 	static int currentPage=1;
 	//对话框或联系人所对应的面板
-	static JPanel panel;
+	static public JPanel panel;
 	//左侧对话按钮
 	static JButton chatButton;
 	//左侧联系人按钮
@@ -47,15 +49,16 @@ public class UI extends JFrame{
 	static JComboBox MOVE;
 	
 	//聊天实现
-	static ChatPanel panel_2;
+	static public ChatPanel panel_2;
 	
 	//设置
 	static SettingPanel SP=new SettingPanel();
 	
 	//保存当前账号ID
-	static String ID;
+	public static String ID;
 	
 	static JLabel label;
+	static ChatClient thread;
 	
 	//为每一个对话项实现选中效果
 	public static void addMouseListener(int i)
@@ -72,23 +75,46 @@ public class UI extends JFrame{
 						
 						list.get(i).setBackground(new Color(200, 200, 200));
 						
-						System.out.println(list.get(i).namelabel.getText());
+						//System.out.println(list.get(i).namelabel.getText());
 						boolean exist2=false;
 						int n = 0;
-						for(int i=0;i<UI.panel_2.list.size();i++)
-							if(UI.panel_2.list.get(i).ID.equals(list.get(i).namelabel.getText()));
-								{exist2=true;n=i;}
-								
+						int ii=0;
+						for(ii=0;ii<UI.panel_2.list.size();ii++)
+						{
+							//System.err.println("UI.panel_2.list.get(ii).ID:"+UI.panel_2.list.get(ii).ID+"   list.get(i).namelabel.getText()"+list.get(i).namelabel.getText());
+							if(UI.panel_2.list.get(ii).ID.equals(list.get(i).namelabel.getText()))
+								{exist2=true;n=ii;}
+						}
 						UI.panel_2.nameTitle.setText(list.get(i).namelabel.getText());
 						//UI.panel_2.textPane.setDocument(UI.panel_2.list.get(n).getDocument().);
 						//System.out.println(UI.panel_2.list.get(n).getText());
-						UI.panel_2.textPane.setText("");
+						
+						
 						UI.panel_2.textPane.setText(UI.panel_2.list.get(n).getText());
+						UI.panel_2.setVisible(true);
 						UI.panel_2.textPane.revalidate();
 						UI.panel_2.textPane.repaint();
 						
+						//是否为群组，是否有显示成员
+					
+						boolean belong=false;
+					if(UI.CP.Grprecord!=null)
+					{
+					for(int p=0;p<UI.CP.Grprecord.length;p++)
+						if(UI.CP.Grprecord[p][1].equals(list.get(i).namelabel.getText()))
+							{
+							System.out.println("i="+p+"      UI.CP.Grprecord[i][1]:"+UI.CP.Grprecord[p][1]);
+							UI.panel_2.showButton.setVisible(true);belong=true;
+							}
+					
+					if(belong==false)
+						UI.panel_2.showButton.setVisible(false);
+					
+					}
 						
 						
+					//	UI.panel_2.nameTitle.setText(UI.CP.tree.getLastSelectedPathComponent().toString());
+					UI.panel_2.nameTitle.setText(list.get(i).namelabel.getText());
 						
 						
 					}
@@ -154,7 +180,10 @@ public class UI extends JFrame{
 	
 	public UI(String ID) {
 		
+		
 		UI.ID=ID;//记录ID
+	
+		
 		CP=new ContactPanel(ID);
 		//System.out.println("用户"+UI.ID+"登陆");
 		getContentPane().setLayout(null);
@@ -378,6 +407,24 @@ public class UI extends JFrame{
 		});
 		addContactGroupbutton.setBounds(97, 499, 81, 23);
 		getContentPane().add(addContactGroupbutton);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				for(int i=0;i<UI.panel_2.list.size();i++)
+						System.out.println("ID:"+UI.panel_2.list.get(i).ID+"    content:" +UI.panel_2.list.get(i).getText());
+					
+					
+					
+				
+				
+				
+				
+			}
+		});
+		btnNewButton.setBounds(495, 499, 93, 23);
+		getContentPane().add(btnNewButton);
 
 		//System.out.println(CP.tree.getRowCount());
 	
@@ -434,6 +481,14 @@ public class UI extends JFrame{
 	
 		
 		pageSwitch(0);//使panel显形
+		
+		thread=new ChatClient();
+		try {
+			thread.main(null);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 }
 	
 	

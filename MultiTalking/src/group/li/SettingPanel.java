@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 public class SettingPanel extends JFrame{
 	public SettingPanel() {
 		setResizable(false);
-		getContentPane().setLayout(new GridLayout(4, 1, 0, 0));
+		getContentPane().setLayout(new GridLayout(5, 1, 0, 0));
 		
 		JButton AddFriend = new JButton("添加好友");
 		AddFriend.addActionListener(new ActionListener() {
@@ -25,20 +25,30 @@ public class SettingPanel extends JFrame{
 		});
 		getContentPane().add(AddFriend);
 		
+		JButton createGroup = new JButton("创建群聊");
+		createGroup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				selectFriends sf=new selectFriends();
+				sf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				sf.setSize(500, 500);
+				sf.setLocale(null);
+				sf.setVisible(true);
+				
+			}
+		});
+		getContentPane().add(createGroup);
+	
+		
 		JButton MManager = new JButton("消息管理");
 		MManager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MessageManager fa=new MessageManager();
-				fa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				fa.setSize(400, 550);
-				fa.setLocale(null);
-				fa.setVisible(true);
+				MessageManager SM=new MessageManager();
+				SM.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				SM.setSize(400, 550);
+				SM.setLocale(null);
+				SM.setVisible(true);
 				
-				
-				
-				
-				
-			}
+							}
 		});
 		getContentPane().add(MManager);
 		

@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+
+import group.lin.dao.GroupsInfoDAO;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -26,17 +30,18 @@ import java.util.ArrayList;
 public class ChatPanel extends JPanel{
 	String name;
 	JPanel NameTitle;
-	JLabel nameTitle;
+	public JLabel nameTitle;
 	JPanel textType;
 	JButton emoji;
 	JButton sendFile;
 	JButton ChatRecord;
 	JButton sendButton;
 	JTextPane textField;
-	IDTextPane textPane;
+	public IDTextPane textPane;
+	JButton showButton;
 	SimpleAttributeSet Friend = new SimpleAttributeSet();
 	SimpleAttributeSet Yourself = new SimpleAttributeSet();
-	static ArrayList<IDTextPane> list=new ArrayList<IDTextPane>();
+	static public ArrayList<IDTextPane> list=new ArrayList<IDTextPane>();
 	
 	public ChatPanel(String name) {
 		setLayout(null);
@@ -51,6 +56,23 @@ public class ChatPanel extends JPanel{
 		nameTitle.setFont(new Font("微软雅黑", Font.PLAIN, 24));
 		nameTitle.setBounds(30, 10, 99, 30);
 		NameTitle.add(nameTitle);
+		
+		showButton = new JButton("查看成员");
+		showButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showMember fa=new showMember();
+				fa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				fa.setSize(400, 550);
+				fa.setLocale(null);
+				fa.setVisible(true);
+				
+				
+				
+			}
+		});
+		showButton.setVisible(false);
+		showButton.setBounds(412, 19, 128, 23);
+		NameTitle.add(showButton);
 		
 		textType = new JPanel();
 		textType.setBackground(Color.WHITE);
@@ -77,16 +99,8 @@ public class ChatPanel extends JPanel{
 		
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*
-				for(int i=0;i<UI.panel_2.list.size();i++)
-					System.out.println("listID："+list.get(i).ID);
 				
-				System.out.println(nameTitle.getText());
-				*/
-				
-				//textPane.setText(textPane.getText()+"\r\n"+textField.getText());
-				//textPane.getDocument().insertString(textPane.getDocument().getLength(), textField.getText()+"\n", Yourself);
-				//System.out.println(textPane.getDocument().getText(0,textPane.getDocument().getLength() ));
+				UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
 				
 				
 //下面这段为找到相应的ID
@@ -104,7 +118,9 @@ for(int i=0;i<list.size();i++)
 }
 //list.get(n).getDocument().insertString(list.get(n).getDocument().getLength(),textField.getText(),Yourself);
 			//这里的点击按钮和按回车产生的顺序有所不同，语句略有差别
-		textPane.setText(textPane.getText()+"我说:"+textField.getText()+"\r\n");
+	
+		textPane.setText(textPane.getText()+"\r\n我说:"+textField.getText()+"\r\n");
+		//textPane.append(textField.getText()+"\r\n");失败
 		list.get(n).setText(textPane.getText());
 		
 		//下面的for循环实现实时更新对话内容信息

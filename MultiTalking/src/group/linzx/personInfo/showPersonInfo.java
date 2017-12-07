@@ -51,9 +51,9 @@ public class showPersonInfo {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("头像图片");
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIgnoreRepaint(true);
-		lblNewLabel.setIcon(new ImageIcon(showPersonInfo.class.getResource("/icon/krystal.JPG")));
+		lblNewLabel.setIcon(new ImageIcon(showPersonInfo.class.getResource("/icon/qqread.png")));
 		lblNewLabel.setBackground(Color.GRAY);
 		lblNewLabel.setBounds(195, 42, 198, 200);
 		frame.getContentPane().add(lblNewLabel);

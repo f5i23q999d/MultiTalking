@@ -49,9 +49,9 @@ public class ListPanel extends JPanel{
 	
 	
 	int id;
-	String name="3";//用户昵称
-	String context="[动画表情]";//对话内容
-	String time="14:46";//时间
+	String name="";//用户昵称
+	String context="";//对话内容
+	String time="";//时间
 	ImageIcon u;//头像
 	JLabel ulabel;
 	JLabel namelabel;
