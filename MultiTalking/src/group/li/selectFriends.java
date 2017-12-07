@@ -51,7 +51,10 @@ public class selectFriends extends JFrame{
 							Object []obj2={JB.get(i).getText(),gID};
 							db.executeUpdate(sql,obj2);
 							
+							UI.thread.SendAMessage(JB.get(i).getText(),"/");
 						}
+					
+					//UI.CP=new ContactPanel(UI.ID);//刷新好友面板
 					
 					JOptionPane.showMessageDialog(null,"创建群聊成功!");
 					

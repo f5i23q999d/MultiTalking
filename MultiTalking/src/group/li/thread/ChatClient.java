@@ -5,6 +5,9 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
+import group.li.ContactPanel;
 import group.li.IDTextPane;
 import group.li.ListPanel;
 import group.li.UI;
@@ -119,7 +122,21 @@ class CTGetMessage implements Runnable {
 		while (true) {
 			try {
 				msg = this.bufferedReader.readLine();
-				if(!msg.equals("对方没上线"))
+				
+				if(getContent(msg).equals("*"))
+				{
+					UI.CP=new ContactPanel(UI.ID);//刷新好友面板
+					JOptionPane.showMessageDialog(null,UI.ID+"已同意好友申请!");
+					
+				}
+				else	if(getContent(msg).equals("/"))
+					{
+						System.err.println("收到信息:"+msg);
+						UI.CP=new ContactPanel(UI.ID);//刷新好友面板
+						JOptionPane.showMessageDialog(null,"有人拉你入群!");
+						
+					}
+				else	if(!msg.equals("对方没上线"))
 				{
 				boolean exist=false;
 				for(int i=0;i<UI.list.size();i++)

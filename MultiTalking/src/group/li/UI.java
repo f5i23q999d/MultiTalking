@@ -44,7 +44,7 @@ public class UI extends JFrame{
 	//左侧联系人按钮
 	static JButton contactButton;
 	//联系人面板
-	static ContactPanel CP;
+	public static ContactPanel CP;
 	//移动至。。
 	static JComboBox MOVE;
 	

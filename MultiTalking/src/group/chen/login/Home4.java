@@ -401,6 +401,8 @@ public class Home4 extends javax.swing.JFrame {
             			T2.setVisible(true);
             			
             			
+            		} else {
+            			JOptionPane.showMessageDialog(null, "密码错误");
             		}
             	} else {
             		JOptionPane.showMessageDialog(null, "账号不存在");

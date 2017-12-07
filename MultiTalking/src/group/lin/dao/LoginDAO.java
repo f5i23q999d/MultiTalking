@@ -23,8 +23,11 @@ public class LoginDAO extends BaseDAO {
 		
 		rs = db.executeQuery(sql, param);
 		try {
-			if(rs.next()) 
-			 result = true;
+			if(rs.next()) {
+				if(name.equals(rs.getString("userID"))) {
+					result = true;					
+				}
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,9 +46,11 @@ public class LoginDAO extends BaseDAO {
 		
 		rs = db.executeQuery(sql, param);
 		try {
-			if(rs.next())
-			result = true;
-			return result;
+			if(rs.next()) {
+				if(password.equals(rs.getString("userPassword"))) {
+					result = true;					
+				}
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
