@@ -128,6 +128,31 @@ public class ChatThread implements Runnable{
 		
 	}
 	
+	//群聊
+	private void broadcastToGroup(String msg,String groupName,String []groupMember){
+		
+	
+		String id=getDest(msg);
+	
+		Socket s=(Socket)ChatServer.map.get(id);
+		
+		if(s==null)
+		{
+			Socket s1=(Socket)ChatServer.map.get(IDname);
+			PrintWriter pw1=this.getSocketPrintWriter(s1);
+			pw1.println("对方没上线");
+			
+			//
+			saveChat(msg);
+			return;
+		}
+		PrintWriter pw=this.getSocketPrintWriter(s);
+		
+		pw.println(getContext(msg));
+	
+}
+	
+	
 	public String getContext(String jj)
 	
 	{

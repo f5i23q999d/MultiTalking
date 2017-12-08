@@ -100,22 +100,25 @@ public class ChatPanel extends JPanel{
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
-				
-				
+				if(sendButton.isVisible())
+				{
+					String [][]mm;
+					GroupsInfoDAO gi=new GroupsInfoDAO();
+					mm=gi.queryForUser(nameTitle.getText());
+					//UI.thread.SendAMessage(name, context);
+					
+				}
+				else
+					UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
+		
 //下面这段为找到相应的ID
 				
-int n = 0;
-for(int i=0;i<list.size();i++)
-{	
-				
-				if(list.get(i).ID.equals(nameTitle.getText()))
-				{
-					
-					n=i;
-					//System.err.println("找到相同名字"+nameTitle.getText()+n);
-				}
-}
+				int n = 0;
+				for(int i=0;i<list.size();i++)	{									
+								if(list.get(i).ID.equals(nameTitle.getText()))
+								{								
+									n=i;									
+								}};
 //list.get(n).getDocument().insertString(list.get(n).getDocument().getLength(),textField.getText(),Yourself);
 			//这里的点击按钮和按回车产生的顺序有所不同，语句略有差别
 	

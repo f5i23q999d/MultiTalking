@@ -15,6 +15,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
@@ -31,6 +32,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.FlowLayout;
+import java.awt.event.MouseMotionAdapter;
 
 public class UI extends JFrame{
 	//存放每一项好友对话面板
@@ -59,6 +61,9 @@ public class UI extends JFrame{
 	
 	static JLabel label;
 	static ChatClient thread;
+	
+	// 全局的位置变量，用于表示鼠标在窗口上的位置
+	static Point origin = new Point();
 	
 	//为每一个对话项实现选中效果
 	public static void addMouseListener(int i)
@@ -181,8 +186,33 @@ public class UI extends JFrame{
 	public UI(String ID) {
 		
 		
+		
 		UI.ID=ID;//记录ID
-	
+		
+		///下面这段设置窗口可以拖动
+		setUndecorated(true);
+		addMouseListener(new MouseAdapter() {
+			// 按下（mousePressed 不是点击，而是鼠标被按下没有抬起）
+			public void mousePressed(MouseEvent e) {
+				// 当鼠标按下的时候获得窗口当前的位置
+				origin.x = e.getX();
+				origin.y = e.getY();
+			}
+		});
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// 当鼠标拖动时获取窗口当前位置
+				Point p = getLocation();
+				// 设置窗口的位置
+				// 窗口当前的位置 + 鼠标当前在窗口的位置 - 鼠标按下的时候在窗口的位置
+				setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
+			}
+		});
+		
+		////////////////////
+		
 		
 		CP=new ContactPanel(ID);
 		//System.out.println("用户"+UI.ID+"登陆");
@@ -294,7 +324,7 @@ public class UI extends JFrame{
 		//panel_2.setBounds(300, 0, 550, 500);
 		
 		panel_2=new ChatPanel(this.ID);
-		
+		//panel_2.
 		panel_2.setBounds(300, 0, 550, 500);
 		panel_2.setVisible(false);
 		getContentPane().add(panel_2);
@@ -408,10 +438,11 @@ public class UI extends JFrame{
 		addContactGroupbutton.setBounds(97, 499, 81, 23);
 		getContentPane().add(addContactGroupbutton);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton closeButton = new JButton("关闭");
+		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				System.exit(0);
 				for(int i=0;i<UI.panel_2.list.size();i++)
 						System.out.println("ID:"+UI.panel_2.list.get(i).ID+"    content:" +UI.panel_2.list.get(i).getText());
 					
@@ -423,8 +454,13 @@ public class UI extends JFrame{
 				
 			}
 		});
-		btnNewButton.setBounds(495, 499, 93, 23);
-		getContentPane().add(btnNewButton);
+		closeButton.setBounds(704, 499, 93, 23);
+		getContentPane().add(closeButton);
+		
+		JLabel backImage = new JLabel("");
+		backImage.setIcon(new ImageIcon(UI.class.getResource("/tab/backCover.png")));
+		backImage.setBounds(300, 0, 550, 500);
+		getContentPane().add(backImage);
 
 		//System.out.println(CP.tree.getRowCount());
 	

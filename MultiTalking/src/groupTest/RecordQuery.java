@@ -34,7 +34,7 @@ public class RecordQuery {
 			System.out.println("receiverid:"+record[a][0]+"	group:"+record[a][1]);
 		*/
 		
-		
+		/*
 		String record[][];
 		UserDAO t=new UserDAO();
 		t.setUserId("Ass");
@@ -43,9 +43,18 @@ public class RecordQuery {
 		for(int a=0;a<record.length;a++)
 			
 			System.out.println("name:"+record[a][1]+"groupid:"+record[a][2]);
+		*/
 		
 		
+		String a="sdoasndoasnd@a";
+		String []aa=a.split("/");
 		
+		for(int i=0;i<aa.length;i++)
+		{
+			System.out.println(aa[i]);
+			System.out.println("aa.length"+aa.length);
+		
+		}
 		/*
 		DBUtil db=DBUtil.getDBUtil();
 		ResultSet a=db.executeQuery("select * from USER");
