@@ -77,7 +77,7 @@ public class ChatThread implements Runnable{
 			this.bufferedReader=new BufferedReader(r);	
 			IDname=bufferedReader.readLine();
 			ChatServer.map.put(IDname, this.socket);
-			//Socket t=(Socket)ChatServer.map.get(IDname);
+			Socket t=(Socket)ChatServer.map.get(IDname);
 			//System.out.println("用户："+bufferedReader.readLine()+"已连接，socket为"+t.getInetAddress().getHostAddress()+" port:"+t.getPort());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class ChatThread implements Runnable{
 	}
 	//私聊
 	private void broadcastTo(String msg){
-			System.out.println("in bc:"+msg);
+			System.out.println(msg);
 		
 			String id=getDest(msg);
 		

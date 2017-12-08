@@ -18,10 +18,11 @@ public class ChatClient {
 	
 	public void SendAMessage(String name,String context)
 	{
+		
 		SendMessage t=new SendMessage(socket,name,context);
 		Thread tt = new Thread(t);
 		tt.start();
-		
+		//System.err.println("发送消息"+context);
 		
 	}
 	
@@ -29,14 +30,9 @@ public class ChatClient {
 	public static void main(String[] args) throws Exception {
 
 		socket=new Socket("127.0.0.1", 6666);
-
-		Scanner sc=new Scanner(System.in);
-		/*
-		System.out.print("输入名字：");
-		String name=sc.nextLine();
-		System.out.println("客户端已经链接.....");
-		*/
+		//socket=new Socket("123.207.117.122", 6666);
 		
+	
 		String name= UI.ID;
 		System.out.println("客户端已经链接.....");
 		
@@ -131,7 +127,7 @@ class CTGetMessage implements Runnable {
 				}
 				else	if(getContent(msg).equals("/"))
 					{
-						System.err.println("收到信息:"+msg);
+						//System.err.println("收到信息:"+msg);
 						UI.CP=new ContactPanel(UI.ID);//刷新好友面板
 						JOptionPane.showMessageDialog(null,"有人拉你入群!");
 						
@@ -158,13 +154,13 @@ class CTGetMessage implements Runnable {
 				exist=false;
 				int tmp=0;
 				
-					System.err.println("getid:"+getID(msg));//谁发的
+					//System.err.println("getid:"+getID(msg));//谁发的
 					
 					UI.panel_2.nameTitle.setText(getID(msg));
 					
 				for(int i=0;i<UI.panel_2.list.size();i++)
 					if(UI.panel_2.list.get(i).ID.equals(getID(msg)))
-							{System.err.println("进来了");exist=true;tmp=i;break;}
+							{exist=true;tmp=i;break;}
 				
 				if(!exist)
 					{
@@ -239,8 +235,7 @@ class CTSendID implements Runnable {
 		this.name=name;
 		this.socket = socket;
 		try {
-			InputStreamReader isr = new InputStreamReader(System.in);
-			bufferedReader = new BufferedReader(isr);
+			
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
 			BufferedWriter bw = new BufferedWriter(osw);
@@ -253,12 +248,13 @@ class CTSendID implements Runnable {
 	public void run() {
 		//System.out.println("in CTSendID");
 		String msg = null;
-		int i=2;
+	
 		
 			try {
 				msg =name;
 				printWriter.println(msg);
-				i--;
+				//System.err.println("发送id:"+msg);
+		
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

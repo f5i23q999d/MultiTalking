@@ -100,15 +100,7 @@ public class ChatPanel extends JPanel{
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if(sendButton.isVisible())
-				{
-					String [][]mm;
-					GroupsInfoDAO gi=new GroupsInfoDAO();
-					mm=gi.queryForUser(nameTitle.getText());
-					//UI.thread.SendAMessage(name, context);
-					
-				}
-				else
+			
 					UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
 		
 //下面这段为找到相应的ID
