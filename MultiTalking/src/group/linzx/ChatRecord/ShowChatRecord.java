@@ -85,8 +85,8 @@ public class ShowChatRecord {
    			String Record="";
    			String s;
    			for(s=br.readLine();s!=null;s=br.readLine()) {
-   				System.out.println(br.getLineNumber()+":"+s);
-   				Record=Record+"\n"+br.getLineNumber()+":"+s;
+   				System.out.println("Line"+br.getLineNumber()+"   :"+s);
+   				Record=Record+"\n"+"Line"+br.getLineNumber()+"   :"+s;
    				ShowChatRecord.textArea.setText(Record);
    			}
    			br.close();
