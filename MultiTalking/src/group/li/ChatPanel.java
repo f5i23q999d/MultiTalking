@@ -38,7 +38,7 @@ public class ChatPanel extends JPanel{
 	JButton sendButton;
 	JTextPane textField;
 	public IDTextPane textPane;
-	JButton showButton;
+	public JButton showButton;
 	SimpleAttributeSet Friend = new SimpleAttributeSet();
 	SimpleAttributeSet Yourself = new SimpleAttributeSet();
 	static public ArrayList<IDTextPane> list=new ArrayList<IDTextPane>();
@@ -100,43 +100,7 @@ public class ChatPanel extends JPanel{
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-			
-					UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
-		
-//下面这段为找到相应的ID
-				
-				int n = 0;
-				for(int i=0;i<list.size();i++)	{									
-								if(list.get(i).ID.equals(nameTitle.getText()))
-								{								
-									n=i;									
-								}};
-//list.get(n).getDocument().insertString(list.get(n).getDocument().getLength(),textField.getText(),Yourself);
-			//这里的点击按钮和按回车产生的顺序有所不同，语句略有差别
-	
-		textPane.setText(textPane.getText()+"\r\n我说:"+textField.getText()+"\r\n");
-		//textPane.append(textField.getText()+"\r\n");失败
-		list.get(n).setText(textPane.getText());
-		
-		//下面的for循环实现实时更新对话内容信息
-		for(int i=0;i<UI.list.size();i++)
-			if(UI.list.get(i).namelabel.getText().equals(nameTitle.getText()))
-			{
-					UI.list.get(i).contextlabel.setText(textField.getText());
-					UI.list.get(i).timelabel.setText(TimeGet.time());
-					
-			}
-		////////////////////////////
-		
-		
-//System.out.println("listID:"+list.get(n).ID+"   context:"+list.get(n).getDocument().getText(0, list.get(n).getDocument().getLength()));
-/////////////////
-				
-				
-				
-				textField.setText("");
-				
-				
+				Send();
 				
 				
 			}
@@ -160,26 +124,7 @@ public class ChatPanel extends JPanel{
 					
 				if (e.getKeyChar()==KeyEvent.VK_ENTER)
 				{
-				//textPane.getDocument().insertString(textPane.getDocument().getLength(), textField.getText()+"-", Yourself);
-				textPane.setText(textPane.getText()+"我说:"+textField.getText());
-				//下面的for循环实现实时更新对话内容信息
-				for(int i=0;i<UI.list.size();i++)
-					if(UI.list.get(i).namelabel.getText().equals(nameTitle.getText()))
-					{
-							UI.list.get(i).contextlabel.setText(textField.getText());
-							UI.list.get(i).timelabel.setText(TimeGet.time());
-					}
-				////////////////////////////
-				textField.setText("");
-				int n = 0;
-				for(int i=0;i<list.size();i++)
-				{	
-					if(list.get(i).ID.equals(nameTitle.getText()))								
-								n=i;
-								
-				}
-				list.get(n).setText(textPane.getText());
-			
+					//Send(); 有严重BUG
 				}
 				
 			}
@@ -220,5 +165,51 @@ public class ChatPanel extends JPanel{
 		scl.setBounds(0, 50, 550, 300);
 		scl.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scl);
+	}
+	
+	
+	public void Send()
+	{
+
+		
+		UI.thread.SendAMessage(nameTitle.getText(), textField.getText());
+
+//下面这段为找到相应的ID
+		
+		int n = 0;
+		for(int i=0;i<list.size();i++)	{									
+						if(list.get(i).ID.equals(nameTitle.getText()))
+						{								
+							n=i;									
+						}};
+//list.get(n).getDocument().insertString(list.get(n).getDocument().getLength(),textField.getText(),Yourself);
+	//这里的点击按钮和按回车产生的顺序有所不同，语句略有差别
+						
+						String [][]isGroup; 
+						GroupsInfoDAO GI=new GroupsInfoDAO();
+						isGroup=GI.queryForUser(nameTitle.getText());
+						
+		if(isGroup!=null)
+			textPane.setText(textPane.getText()+"\r\n"+UI.ID+":"+textField.getText()+"\r\n");
+		else
+			textPane.setText(textPane.getText()+"\r\n我说:"+textField.getText()+"\r\n");
+		
+		list.get(n).setText(textPane.getText());
+
+//下面的for循环实现实时更新对话内容信息
+		for(int i=0;i<UI.list.size();i++)
+			if(UI.list.get(i).namelabel.getText().equals(nameTitle.getText()))
+			{
+					UI.list.get(i).contextlabel.setText(textField.getText());
+					UI.list.get(i).timelabel.setText(TimeGet.time());
+					
+			}
+
+		
+		
+		textField.setText("");
+		
+		
+		
 	}
 }

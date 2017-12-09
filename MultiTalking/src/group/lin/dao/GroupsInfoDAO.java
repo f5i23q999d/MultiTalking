@@ -7,6 +7,7 @@ import java.util.List;
 
 import group.lin.base.BaseDAO;
 import group.lin.entity.UserDAO;
+import group.lin.util.DBUtil;
 import group.lin.entity.ChatRecordDAO;
 import group.lin.entity.ContactDAO;
 import group.lin.entity.GroupDAO;
@@ -33,6 +34,7 @@ public class GroupsInfoDAO extends BaseDAO {
 		List<GroupDAO> list = new ArrayList<GroupDAO>(); 
 		String sql="select *from groupsview where userid=?";
 		Object[] obj={user.getUserId()};
+		//DBUtil.getDBUtil()
 		rs = db.executeQuery(sql,obj);
 		try{
 			while(rs.next()) {

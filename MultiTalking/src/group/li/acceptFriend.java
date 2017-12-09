@@ -37,7 +37,7 @@ public class acceptFriend extends JFrame{
 				String sql="insert into CONTACT values (?,?,1,?)";
 				Object[] obj = {UI.ID,dest,comboBox.getSelectedItem().toString()};
 				db.executeUpdate(sql, obj);
-				System.out.println("已同意"+UI.ID+" "+dest+" "+comboBox.getSelectedItem().toString());
+				//System.out.println("已同意"+UI.ID+" "+dest+" "+comboBox.getSelectedItem().toString());
 				JOptionPane.showMessageDialog(null,"已同意好友申请!");
 				
 				MessagePanel.btnNewButton.setText("已同意");

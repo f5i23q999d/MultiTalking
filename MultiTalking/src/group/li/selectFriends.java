@@ -85,7 +85,7 @@ public class selectFriends extends JFrame{
 		groupName.setColumns(10);
 		
 		
-		System.out.println("UI.CP.record.length:"+UI.CP.Frirecord.length);
+		//System.out.println("UI.CP.record.length:"+UI.CP.Frirecord.length);
 		int i=0;
 		//自己也加上
 		chckbxNewCheckBox = new JCheckBox(UI.ID);

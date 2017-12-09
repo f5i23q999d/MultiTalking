@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import group.lin.dao.GroupsInfoDAO;
+
 public class ChatThread implements Runnable{
 
 	private List<Socket> socketList;
@@ -43,7 +45,7 @@ public class ChatThread implements Runnable{
 //		synchronized(ChatServer.news) {
 			String id = getDest(msg);
 			List<String> chartList = null;
-			
+			//System.out.println("已保存消息:"+msg);
 			if(ChatServer.news.containsKey(id)) {
 				chartList = (List<String>) ChatServer.news.get(id);
 				chartList.add(msg);
@@ -107,10 +109,38 @@ public class ChatThread implements Runnable{
 	//私聊
 	private void broadcastTo(String msg){
 			System.out.println(msg);
-		
 			String id=getDest(msg);
-		
 			Socket s=(Socket)ChatServer.map.get(id);
+			
+			
+			
+			GroupsInfoDAO GI=new GroupsInfoDAO();
+			String[][] groupM = GI.queryForUser(id);   
+			if(groupM!=null)//如果是群聊的话
+			{	
+								
+				for(int k=0;k<groupM.length;k++)
+				{
+					if(!groupM[k][0].equals(getContextID(msg)))//防止直接发给自己
+					{
+					Socket s2=(Socket)ChatServer.map.get(groupM[k][0]);//获取所有群成员的SOCKET
+					if(s2==null)
+						{saveChat(id+":"+getContext(msg)+"@"+groupM[k][0]);}//如果对方未上线则先保存好信息
+					else
+					{
+					PrintWriter pw2=this.getSocketPrintWriter(s2);
+					
+					pw2.println(id+":"+getContext(msg));//不然直接发送
+					//System.err.println("已发送消息:  "+id+":"+getContext(msg)+"  到"+groupM[k][0]);
+					}
+					}
+				}
+				return;
+			}
+			
+			
+		
+			
 			
 			if(s==null)
 			{
@@ -122,37 +152,14 @@ public class ChatThread implements Runnable{
 				saveChat(msg);
 				return;
 			}
-			PrintWriter pw=this.getSocketPrintWriter(s);
 			
+			PrintWriter pw=this.getSocketPrintWriter(s);
 			pw.println(getContext(msg));
 		
 	}
+
 	
-	//群聊
-	private void broadcastToGroup(String msg,String groupName,String []groupMember){
-		
-	
-		String id=getDest(msg);
-	
-		Socket s=(Socket)ChatServer.map.get(id);
-		
-		if(s==null)
-		{
-			Socket s1=(Socket)ChatServer.map.get(IDname);
-			PrintWriter pw1=this.getSocketPrintWriter(s1);
-			pw1.println("对方没上线");
-			
-			//
-			saveChat(msg);
-			return;
-		}
-		PrintWriter pw=this.getSocketPrintWriter(s);
-		
-		pw.println(getContext(msg));
-	
-}
-	
-	
+	//获取@之前的字段
 	public String getContext(String jj)
 	
 	{
@@ -174,6 +181,30 @@ public class ChatThread implements Runnable{
 		
 	}
 	
+	//获取第一个:之前的字段
+	public String getContextID(String jj)
+	
+	{
+		
+		String tmp="";
+		int i=0;
+		for(;i<jj.length()-1;i++)
+		{
+			if(jj.charAt(i+1)!=':')
+					tmp+=jj.charAt(i);
+			else
+				break;
+		
+		}
+		tmp+=jj.charAt(i);
+		return tmp;
+		
+		
+		
+	}
+
+
+	//获取@后字段
 	public String getDest(String jj)
 	{
 		String tmp="";
@@ -191,6 +222,7 @@ public class ChatThread implements Runnable{
 	
 	public void run() {
 		String msg="";
+		String tmp = null;
 		this.prepreRun();
 		this.preRun();
 		
@@ -199,14 +231,16 @@ public class ChatThread implements Runnable{
 		
 		while(true){
 			try {
-				
+//				tmp = this.bufferedReader.readLine();
+			
+				msg.replaceAll("\r\n","");
 				msg=IDname+":"+this.bufferedReader.readLine();
 				this.broadcastTo(msg);
 			} catch (IOException e) {
 				try {
 					this.bufferedReader.close();
 					this.socket.close();
-					this.socketList.remove(this.socket);
+					ChatServer.map.remove(IDname);
 					/*
 					this.broadcast("somebody exist....people size :"
 					              +socketList.size());

@@ -1,5 +1,6 @@
 package group.li.thread;
 
+import java.awt.Color;
 import java.io.*;
 
 import java.net.*;
@@ -11,6 +12,7 @@ import group.li.ContactPanel;
 import group.li.IDTextPane;
 import group.li.ListPanel;
 import group.li.UI;
+import group.lin.dao.GroupsInfoDAO;
 
 public class ChatClient {
 	
@@ -29,8 +31,8 @@ public class ChatClient {
 	
 	public static void main(String[] args) throws Exception {
 
-		socket=new Socket("127.0.0.1", 6666);
-		//socket=new Socket("123.207.117.122", 6666);
+		//socket=new Socket("127.0.0.1", 6666);
+		socket=new Socket("123.207.117.122", 6666);
 		
 	
 		String name= UI.ID;
@@ -102,12 +104,12 @@ class CTGetMessage implements Runnable {
 			{
 				for(int j=i+1;j<jj.length();j++)
 					tmp=tmp+jj.charAt(j);
-				break;
+				return tmp;
 			
 			}
 		}
 		
-		return tmp;
+		return "没内容";
 		
 	}
 	
@@ -118,7 +120,7 @@ class CTGetMessage implements Runnable {
 		while (true) {
 			try {
 				msg = this.bufferedReader.readLine();
-				
+				System.out.println("收到信息:"+msg);
 				if(getContent(msg).equals("*"))
 				{
 					UI.CP=new ContactPanel(UI.ID);//刷新好友面板
@@ -137,14 +139,29 @@ class CTGetMessage implements Runnable {
 				boolean exist=false;
 				for(int i=0;i<UI.list.size();i++)
 					if(UI.list.get(i).getName().equals(getID(msg)))
+							{
 							exist=true;
+							UI.list.get(i).setContext(getContent(msg));//及时刷新中间面板的聊天信息
+							
+							for(int k=0;k<UI.list.size();k++)
+								UI.list.get(k).setBackground(new Color(228,228,228));
+						
+							UI.list.get(i).setBackground(new Color(200, 200, 200));//颜色调整
+							
+							break;
+							}
 				
 				if(!exist)
 				{
 					UI.list.add(new ListPanel(getID(msg)));
 					UI.list.get(UI.list.size()-1).setContext(getContent(msg));
+					
+					for(int k=0;k<UI.list.size();k++)
+						UI.list.get(k).setBackground(new Color(228,228,228));
+				
+					UI.list.get(UI.list.size()-1).setBackground(new Color(200, 200, 200));//颜色调整
 				}
-				UI.pageSwitch(0);
+				UI.pageSwitch(0);//及时刷新中间面板
 				
 				
 				//UI.panel_2.nameTitle.setText(getID(msg));	
@@ -162,21 +179,34 @@ class CTGetMessage implements Runnable {
 					if(UI.panel_2.list.get(i).ID.equals(getID(msg)))
 							{exist=true;tmp=i;break;}
 				
+				String [][]isGroup; 
+				GroupsInfoDAO GI=new GroupsInfoDAO();
+				isGroup=GI.queryForUser(getID(msg));
+				
+				
+				
+				//下面部分是聊天面板处理
 				if(!exist)
 					{
 						UI.panel_2.list.add(new IDTextPane(getID(msg)));
 						UI.panel_2.list.get(UI.panel_2.list.size()-1).ID=getID(msg);
-						UI.panel_2.list.get(UI.panel_2.list.size()-1).append(msg);
+						if(isGroup!=null)
+							UI.panel_2.list.get(UI.panel_2.list.size()-1).append(getContent(msg));
+						else
+							UI.panel_2.list.get(UI.panel_2.list.size()-1).append(msg);
 						
 						UI.panel_2.textPane.setText(UI.panel_2.list.get(UI.panel_2.list.size()-1).getText());
-						
-						System.out.println("1111111111");
+						UI.panel_2.textPane.getText();
+						//System.out.println("1111111111");
 					}
 				else
 					{							
-						System.out.println("2222222222222");
+						//System.out.println("2222222222222");
 						UI.panel_2.list.get(tmp).append("\r\n");
-						UI.panel_2.list.get(tmp).append(msg);
+						if(isGroup!=null)
+							UI.panel_2.list.get(tmp).append(getContent(msg));
+						else
+							UI.panel_2.list.get(tmp).append(msg);
 						UI.panel_2.textPane.setText(UI.panel_2.list.get(tmp).getText());
 					}
 				}
@@ -291,6 +321,7 @@ class SendMessage implements Runnable {
 		
 			try {
 				msg =name;
+				
 				printWriter.println(context+"@"+name);
 			
 			} catch (Exception e) {

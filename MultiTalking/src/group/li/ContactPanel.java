@@ -28,8 +28,8 @@ public class ContactPanel extends JScrollPane{
 	static String selectedID;
 	static int number;
 	String ID;
-	static String Frirecord[][];
-	static String Grprecord[][];
+	public static String Frirecord[][];
+	public static String Grprecord[][];
 	
 	public ContactPanel(String ID)
 	{

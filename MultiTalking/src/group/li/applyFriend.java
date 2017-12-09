@@ -37,7 +37,7 @@ public class applyFriend extends JFrame{
 				String sql="insert into CONTACT values (?,?,0,?)";
 				Object[] obj = {UI.ID,dest,comboBox.getSelectedItem().toString()};
 				db.executeUpdate(sql, obj);
-				System.out.println("已申请"+UI.ID+" "+dest+" "+comboBox.getSelectedItem().toString());
+				//System.out.println("已申请"+UI.ID+" "+dest+" "+comboBox.getSelectedItem().toString());
 				JOptionPane.showMessageDialog(null,"已发送好友申请!");
 				
 			}

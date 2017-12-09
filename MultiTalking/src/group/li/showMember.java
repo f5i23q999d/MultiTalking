@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 public class showMember extends JFrame{
 	public showMember() {
-		System.err.println(UI.panel_2.nameTitle.getText());
+		//System.err.println(UI.panel_2.nameTitle.getText());
 		JButton btnNewButton;
 		getContentPane().setLayout(new GridLayout(10, 1, 0, 0));
 		String record[][];

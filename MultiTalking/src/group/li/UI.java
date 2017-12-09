@@ -108,7 +108,7 @@ public class UI extends JFrame{
 					for(int p=0;p<UI.CP.Grprecord.length;p++)
 						if(UI.CP.Grprecord[p][1].equals(list.get(i).namelabel.getText()))
 							{
-							System.out.println("i="+p+"      UI.CP.Grprecord[i][1]:"+UI.CP.Grprecord[p][1]);
+							//System.out.println("i="+p+"      UI.CP.Grprecord[i][1]:"+UI.CP.Grprecord[p][1]);
 							UI.panel_2.showButton.setVisible(true);belong=true;
 							}
 					
@@ -442,6 +442,7 @@ public class UI extends JFrame{
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				//UI.thread.SendAMessage("", "###@@");
 				System.exit(0);
 				for(int i=0;i<UI.panel_2.list.size();i++)
 						System.out.println("ID:"+UI.panel_2.list.get(i).ID+"    content:" +UI.panel_2.list.get(i).getText());
