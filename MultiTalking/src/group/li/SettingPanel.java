@@ -1,14 +1,18 @@
 package group.li;
 
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import group.linzx.personInfo.showPersonInfo;
 
 public class SettingPanel extends JFrame{
+
 	public SettingPanel() {
 		setResizable(false);
 		getContentPane().setLayout(new GridLayout(5, 1, 0, 0));
@@ -53,14 +57,20 @@ public class SettingPanel extends JFrame{
 		getContentPane().add(MManager);
 		
 		JButton SetInfo = new JButton("个人信息设置");
+		SetInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showPersonInfo a=new showPersonInfo();
+				a.Personframe.setVisible(true);
+			}
+		});
 		getContentPane().add(SetInfo);
 		
 		JButton About = new JButton("关于");
-		About.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		getContentPane().add(About);
+	}
+	private void initialize() {
+		
 	}
 
 }
