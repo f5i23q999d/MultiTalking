@@ -9,10 +9,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import group.li.thread.ChatClient;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
@@ -24,49 +27,100 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Choice;
 import javax.swing.JComboBox;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.FlowLayout;
+import java.awt.event.MouseMotionAdapter;
 
 public class UI extends JFrame{
 	//存放每一项好友对话面板
-	static ArrayList<ListPanel> list=new ArrayList<ListPanel>();
+	static public ArrayList<ListPanel> list=new ArrayList<ListPanel>();
 	//当前页数
 	static int currentPage=1;
 	//对话框或联系人所对应的面板
-	static JPanel panel;
+	static public JPanel panel;
 	//左侧对话按钮
 	static JButton chatButton;
 	//左侧联系人按钮
 	static JButton contactButton;
 	//联系人面板
-	static ContactPanel CP;
+	public static ContactPanel CP;
 	//移动至。。
 	static JComboBox MOVE;
 	
 	//聊天实现
-	public static JPanel panel_2;
+	static public ChatPanel panel_2;
 	
 	//设置
 	static SettingPanel SP=new SettingPanel();
 	
 	//保存当前账号ID
-	static String ID;
+	public static String ID;
 	
-	//未每一个对话项实现选中效果
+	static JLabel label;
+	static ChatClient thread;
+	
+	// 全局的位置变量，用于表示鼠标在窗口上的位置
+	static Point origin = new Point();
+	
+	//为每一个对话项实现选中效果
 	public static void addMouseListener(int i)
 	{
 		
-		System.out.println("listener:"+i);
+		//System.out.println("listener:"+i);
 				list.get(i).addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						
 						
 						for(int k=0;k<list.size();k++)
-								list.get(k).setBackground(Color.white);
+								list.get(k).setBackground(new Color(228,228,228));
 						
 						list.get(i).setBackground(new Color(200, 200, 200));
+						
+						//System.out.println(list.get(i).namelabel.getText());
+						boolean exist2=false;
+						int n = 0;
+						int ii=0;
+						for(ii=0;ii<UI.panel_2.list.size();ii++)
+						{
+							//System.err.println("UI.panel_2.list.get(ii).ID:"+UI.panel_2.list.get(ii).ID+"   list.get(i).namelabel.getText()"+list.get(i).namelabel.getText());
+							if(UI.panel_2.list.get(ii).ID.equals(list.get(i).namelabel.getText()))
+								{exist2=true;n=ii;}
+						}
+						UI.panel_2.nameTitle.setText(list.get(i).namelabel.getText());
+						//UI.panel_2.textPane.setDocument(UI.panel_2.list.get(n).getDocument().);
+						//System.out.println(UI.panel_2.list.get(n).getText());
+						
+						
+						UI.panel_2.textPane.setText(UI.panel_2.list.get(n).getText());
+						UI.panel_2.setVisible(true);
+						UI.panel_2.textPane.revalidate();
+						UI.panel_2.textPane.repaint();
+						
+						//是否为群组，是否有显示成员
+					
+						boolean belong=false;
+					if(UI.CP.Grprecord!=null)
+					{
+					for(int p=0;p<UI.CP.Grprecord.length;p++)
+						if(UI.CP.Grprecord[p][1].equals(list.get(i).namelabel.getText()))
+							{
+							System.out.println("i="+p+"      UI.CP.Grprecord[i][1]:"+UI.CP.Grprecord[p][1]);
+							UI.panel_2.showButton.setVisible(true);belong=true;
+							}
+					
+					if(belong==false)
+						UI.panel_2.showButton.setVisible(false);
+					
+					}
+						
+						
+					//	UI.panel_2.nameTitle.setText(UI.CP.tree.getLastSelectedPathComponent().toString());
+					UI.panel_2.nameTitle.setText(list.get(i).namelabel.getText());
+						
 						
 					}
 				});
@@ -74,11 +128,12 @@ public class UI extends JFrame{
 		
 	}
 	
-	public static void test(int k)
+	public static int computePage()
 	{
 		
-		//pageSwitch(0);
+		return list.size()/10+1;
 		
+			
 		
 	}
 	
@@ -86,9 +141,14 @@ public class UI extends JFrame{
 	static public void pageSwitch(int k)
 	{
 		
+		
+		
+		
+		
+		
 		panel.removeAll();
 		panel.setLayout(new GridLayout(10, 1, 0, 0));
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(new Color(228,228,228));//这里修改第二面板的背景色
 		currentPage+=k;
 		int total=list.size();
 		 if(list.size()-(currentPage-1)*10>10)
@@ -112,16 +172,55 @@ public class UI extends JFrame{
 		
 	}
 	
+	//聊天框切换
+	static public void chatSwitch(JLabel jp)
+	{
+		panel_2.setBackground(new Color(25,25,25));
+		
+		
+	}
+	
+	
+	
 	
 	public UI(String ID) {
 		
+		
+		
 		UI.ID=ID;//记录ID
+		
+		///下面这段设置窗口可以拖动
+		setUndecorated(true);
+		addMouseListener(new MouseAdapter() {
+			// 按下（mousePressed 不是点击，而是鼠标被按下没有抬起）
+			public void mousePressed(MouseEvent e) {
+				// 当鼠标按下的时候获得窗口当前的位置
+				origin.x = e.getX();
+				origin.y = e.getY();
+			}
+		});
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// 当鼠标拖动时获取窗口当前位置
+				Point p = getLocation();
+				// 设置窗口的位置
+				// 窗口当前的位置 + 鼠标当前在窗口的位置 - 鼠标按下的时候在窗口的位置
+				setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
+			}
+		});
+		
+		////////////////////
+		
+		
 		CP=new ContactPanel(ID);
-		System.out.println("用户"+UI.ID+"登陆");
+		//System.out.println("用户"+UI.ID+"登陆");
 		getContentPane().setLayout(null);
 		
 		panel = new JPanel();
 		panel.setBounds(55, 0, 245, 500);
+		
 		getContentPane().add(panel);
 
 		panel.setLayout(new GridLayout(10, 1, 0, 0));
@@ -129,6 +228,10 @@ public class UI extends JFrame{
 		JButton lastPage = new JButton("<<");
 		lastPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(currentPage==1)
+						return;
+				
+				
 				pageSwitch(-1);
 				
 			}
@@ -139,6 +242,9 @@ public class UI extends JFrame{
 		JButton nextPage = new JButton(">>");
 		nextPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(currentPage>=computePage())				
+					return;
+			
 				pageSwitch(1);
 				
 			}
@@ -171,6 +277,7 @@ public class UI extends JFrame{
 				
 				contactButton.setIcon(new ImageIcon(UI.class.getResource("/tab/9.png")));
 				chatButton.setIcon(new ImageIcon(UI.class.getResource("/tab/6.png")));
+				panel_2.setVisible(false);
 
 				
 				panel.removeAll();
@@ -213,15 +320,16 @@ public class UI extends JFrame{
 		lblNewLabel.setBounds(0, 5, 55, 55);
 		panel_1.add(lblNewLabel);
 		
-		panel_2 = new JPanel();
-		panel_2.setBounds(300, 0, 600, 500);
-		getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		//panel_2 = new ChatPanel();
+		//panel_2.setBounds(300, 0, 550, 500);
 		
-		JLabel teatLabel = new JLabel("\u6B63\u5728\u4E0E   \u5BF9\u8BDD");
-		teatLabel.setFont(new Font("宋体", Font.PLAIN, 26));
-		teatLabel.setBounds(112, 166, 186, 157);
-		panel_2.add(teatLabel);
+		panel_2=new ChatPanel(this.ID);
+		//panel_2.
+		panel_2.setBounds(300, 0, 550, 500);
+		panel_2.setVisible(false);
+		getContentPane().add(panel_2);
+		
+		
 		
 		JButton delButton = new JButton("删除");
 		delButton.addActionListener(new ActionListener() {
@@ -234,14 +342,14 @@ public class UI extends JFrame{
 		delButton.setBounds(178, 499, 81, 23);
 		getContentPane().add(delButton);
 		
-		JLabel label = new JLabel("移动到：");
+		label = new JLabel("移动到：");
 		label.setBounds(329, 503, 54, 15);
 		getContentPane().add(label);
 		
 		
 		
 		
-		
+		CP.tree.setBackground(new Color(228,228,228));
 		TreeNode node = (TreeNode)CP.tree.getModel().getRoot();
 		//node.getChildAt(i).toString()
 		
@@ -329,8 +437,32 @@ public class UI extends JFrame{
 		});
 		addContactGroupbutton.setBounds(97, 499, 81, 23);
 		getContentPane().add(addContactGroupbutton);
+		
+		JButton closeButton = new JButton("关闭");
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);
+				for(int i=0;i<UI.panel_2.list.size();i++)
+						System.out.println("ID:"+UI.panel_2.list.get(i).ID+"    content:" +UI.panel_2.list.get(i).getText());
+					
+					
+					
+				
+				
+				
+				
+			}
+		});
+		closeButton.setBounds(704, 499, 93, 23);
+		getContentPane().add(closeButton);
+		
+		JLabel backImage = new JLabel("");
+		backImage.setIcon(new ImageIcon(UI.class.getResource("/tab/backCover.png")));
+		backImage.setBounds(300, 0, 550, 500);
+		getContentPane().add(backImage);
 
-		System.out.println(CP.tree.getRowCount());
+		//System.out.println(CP.tree.getRowCount());
 	
 		/*
 		list.add(new ListPanel());
@@ -385,6 +517,14 @@ public class UI extends JFrame{
 	
 		
 		pageSwitch(0);//使panel显形
+		
+		thread=new ChatClient();
+		try {
+			thread.main(null);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 }
 	
 	

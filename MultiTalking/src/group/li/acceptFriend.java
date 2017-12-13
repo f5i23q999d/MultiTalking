@@ -44,6 +44,9 @@ public class acceptFriend extends JFrame{
 				MessagePanel.btnNewButton.setEnabled(false);
 				dispose();
 				
+				//好友
+				UI.thread.SendAMessage(dest, "*");
+				
 				UI.CP=new ContactPanel(UI.ID);//刷新好友面板
 				/*BUG 不能立即刷新
 				UI.CP.revalidate();

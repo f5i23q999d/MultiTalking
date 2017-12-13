@@ -24,9 +24,11 @@ public class MessageManager extends JFrame{
 		u.setUserId(UI.ID);//冗余
 		QueryApplyDAO QA=new QueryApplyDAO();
 		record=QA.queryApply(u);
+		if(record==null)
+			return;
 		for(int i=0;i<record.length;i++)
 		{
-			System.out.println("applicant:"+record[i][0]);
+			//System.out.println("applicant:"+record[i][0]);
 		
 		
 			add(new MessagePanel(record[i][0]));
