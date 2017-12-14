@@ -10,15 +10,21 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import group.li.thread.ChatClient;
+import group.lin.util.DBUtil;
+import group.linzx.personInfo.GetImageFromServer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -55,6 +61,9 @@ public class UI extends JFrame{
 	
 	//设置
 	static SettingPanel SP=new SettingPanel();
+	
+	//头像
+	static JLabel face;
 	
 	//保存当前账号ID
 	public static String ID;
@@ -117,7 +126,7 @@ public class UI extends JFrame{
 					
 					}
 						
-						
+					
 					//	UI.panel_2.nameTitle.setText(UI.CP.tree.getLastSelectedPathComponent().toString());
 					UI.panel_2.nameTitle.setText(list.get(i).namelabel.getText());
 						
@@ -160,8 +169,15 @@ public class UI extends JFrame{
 		for(int i=(currentPage-1)*10;i<total;i++)
 		{
 			
-			//list.get(i).setName("好友"+i);
-			list.get(i).setU(new ImageIcon(UI.class.getResource("/icon/"+i+".png")));
+			
+			//list.get(i).setU(new ImageIcon(UI.class.getResource("/icon/"+i+".png")));
+			String FaceFile;
+			FaceFile=getPortrait(list.get(i).getName());
+			
+			if(FaceFile!=null)
+				list.get(i).setU(new ImageIcon(GetImageFromServer.getImageFromServer(FaceFile)));
+			else
+				list.get(i).setU(new ImageIcon(UI.class.getResource("/icon/9.png")));
 			panel.add(list.get(i));
 			addMouseListener(i);
 					}
@@ -180,6 +196,40 @@ public class UI extends JFrame{
 		
 	}
 	
+	
+	//获取某用户的头像
+	static public String getPortrait(String ID)
+	{
+		
+		DBUtil db = DBUtil.getDBUtil();
+		String DBportrait = null;
+		ResultSet rs = db.executeQuery("select * from USER where userId='"+ID+"'");
+		try {
+			if (rs.next()) {
+				DBportrait=rs.getString(5);
+			
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+	
+		//db.close();
+		return DBportrait;
+		
+	}
+	
+	//设置头像
+	static public void setPortrait()
+	{
+		
+		ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(getPortrait(ID)));
+		//下面这行表示按比例缩放图片
+		u2.setImage(u2.getImage().getScaledInstance(55, 55,  Image.SCALE_DEFAULT));
+		face.setIcon(u2);
+		
+	}
 	
 	
 	
@@ -315,13 +365,28 @@ public class UI extends JFrame{
 		button_1.setBounds(0, 435, 55, 55);
 		panel_1.add(button_1);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(UI.class.getResource("/tab/11.png")));
-		lblNewLabel.setBounds(0, 5, 55, 55);
-		panel_1.add(lblNewLabel);
 		
-		//panel_2 = new ChatPanel();
-		//panel_2.setBounds(300, 0, 550, 500);
+		DBUtil db = DBUtil.getDBUtil();
+		String DBportrait="";
+		ResultSet rs = db.executeQuery("select * from USER where userId='"+UI.ID+"'");
+		try {
+			if (rs.next()) {
+				DBportrait=rs.getString(5);
+			
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		
+		face = new JLabel("");
+		face.setBounds(0, 15, 55, 55);
+		panel_1.add(face);
+		setPortrait();
+	
+		
 		
 		panel_2=new ChatPanel(this.ID);
 		//panel_2.
@@ -462,6 +527,8 @@ public class UI extends JFrame{
 		backImage.setIcon(new ImageIcon(UI.class.getResource("/tab/backCover.png")));
 		backImage.setBounds(300, 0, 550, 500);
 		getContentPane().add(backImage);
+		
+	
 
 		//System.out.println(CP.tree.getRowCount());
 	

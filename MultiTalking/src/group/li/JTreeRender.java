@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -12,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+
+import group.linzx.personInfo.GetImageFromServer;
 
 public class JTreeRender extends DefaultTreeCellRenderer{
 	
@@ -50,7 +53,16 @@ public class JTreeRender extends DefaultTreeCellRenderer{
         }  
        
         if (node.getLevel() == 2) {  //子节点
-        	//this.setBackground(new Color(228,228,228));
+        	String FaceFile=null;
+        	FaceFile=UI.getPortrait(value.toString());
+        	
+        	if(FaceFile!=null)
+        	{
+        		
+        	
+        	this.setIcon((ImageIcon)ContactPanel.face.get(value.toString()));
+          	}
+        	else
             this.setIcon(new ImageIcon(getClass().getClassLoader().getResource("icon/big1.png")));  
         }
         this.setOpaque(true);//设置透明，否则Text不能与背景色融合

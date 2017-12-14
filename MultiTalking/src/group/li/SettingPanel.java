@@ -1,6 +1,9 @@
 package group.li;
 
 import javax.swing.JPanel;
+
+import group.linzx.personInfo.showPersonInfo;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -53,6 +56,13 @@ public class SettingPanel extends JFrame{
 		getContentPane().add(MManager);
 		
 		JButton SetInfo = new JButton("个人信息设置");
+		SetInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				showPersonInfo a=new showPersonInfo();
+				a.Personframe.setVisible(true);
+			}
+		});
 		getContentPane().add(SetInfo);
 		
 		JButton About = new JButton("关于");

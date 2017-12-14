@@ -1,7 +1,10 @@
 package group.li;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +22,7 @@ import group.lin.dao.ContactListDAO;
 import group.lin.dao.GroupsInfoDAO;
 import group.lin.entity.UserDAO;
 import group.lin.util.DBUtil;
+import group.linzx.personInfo.GetImageFromServer;
 
 
 public class ContactPanel extends JScrollPane{
@@ -30,6 +34,7 @@ public class ContactPanel extends JScrollPane{
 	String ID;
 	public static String Frirecord[][];
 	public static String Grprecord[][];
+	public static Map face=new HashMap();
 	
 	public ContactPanel(String ID)
 	{
@@ -66,6 +71,8 @@ public class ContactPanel extends JScrollPane{
 							exist=true;
 							num=j;
 							//寻找是否有相同分组并且记录下其对应的位置
+							
+							
 							}
 					
 					if(!exist)
@@ -82,6 +89,14 @@ public class ContactPanel extends JScrollPane{
 					tmp.insertNodeInto(new DefaultMutableTreeNode(Frirecord[i][0]), (DefaultMutableTreeNode)this.getRoot().getChildAt(num), this.getRoot().getChildAt(num).getChildCount());
 					//存在相同分组时，先定位其位置，再插入好友
 					}
+					
+					
+					ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(UI.getPortrait(Frirecord[i][0])));
+		        	//下面这行表示按比例缩放图片
+		        	u2.setImage(u2.getImage().getScaledInstance(40, 40,  Image.SCALE_DEFAULT));
+		        	face.put(Frirecord[i][0],u2);
+					
+					
 				}
 				
 				node_1=new DefaultMutableTreeNode("群组");
@@ -121,28 +136,7 @@ public class ContactPanel extends JScrollPane{
 			}
 		
 			}
-			
-			
-				/*
-				DefaultMutableTreeNode node_1;
-				node_1 = new DefaultMutableTreeNode("123");
-					node_1.add(new DefaultMutableTreeNode("456"));
-					node_1.add(new DefaultMutableTreeNode("789"));
-					node_1.add(new DefaultMutableTreeNode("aɫ"));
-					node_1.add(new DefaultMutableTreeNode("b"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("阿斯顿");
-					node_1.add(new DefaultMutableTreeNode("阿斯达"));
-					node_1.add(new DefaultMutableTreeNode("青蛙大全"));
-					node_1.add(new DefaultMutableTreeNode("从VS"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("怕");
-					node_1.add(new DefaultMutableTreeNode("ASCA"));
-					node_1.add(new DefaultMutableTreeNode("D133"));
-					node_1.add(new DefaultMutableTreeNode("啊手动阀"));
-					node_1.add(new DefaultMutableTreeNode("㽶"));
-				add(node_1);
-				*/
+
 			}
 		}
 	));
@@ -168,12 +162,6 @@ public class ContactPanel extends JScrollPane{
 			if(!exist)
 			{
 			UI.list.add(new ListPanel(tree.getLastSelectedPathComponent().toString()));
-			
-				
-					//UI.chatSwitch(UI.list.get(i).ulabel);
-					
-	
-				
 			
 			}
 			
@@ -210,19 +198,7 @@ public class ContactPanel extends JScrollPane{
 			UI.panel_2.textPane.revalidate();
 			UI.panel_2.textPane.repaint();
 			
-			/*
-			for(int i=0;i<UI.panel_2.list.size();i++)
-				try {
-					System.out.println("listID："+UI.panel_2.list.get(i).getDocument().getText(0, UI.panel_2.list.get(i).getDocument().getLength()));
-				} catch (BadLocationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			*/
-			
-			
-			
-			
+
 			UI.panel_2.setVisible(true);
 			
 			UI.pageSwitch(0);//切换页面并刷新

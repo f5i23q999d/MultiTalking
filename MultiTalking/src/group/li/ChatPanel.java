@@ -22,6 +22,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import group.lin.dao.GroupsInfoDAO;
+import group.linzx.ChatRecord.ShowChatRecord;
+import group.linzx.ChatRecord.WriteChatRecord;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -91,6 +93,13 @@ public class ChatPanel extends JPanel{
 		textType.add(sendFile);
 		
 		ChatRecord = new JButton("");
+		ChatRecord.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ShowChatRecord window = new ShowChatRecord();
+				window.recordframe.setVisible(true);
+				
+			}
+		});
 		ChatRecord.setIcon(new ImageIcon(ChatPanel.class.getResource("/tab/18.png")));
 		ChatRecord.setBounds(106, 10, 23, 23);
 		textType.add(ChatRecord);
@@ -209,6 +218,11 @@ public class ChatPanel extends JPanel{
 		
 		textField.setText("");
 		
+		/*
+		 * lzx:尝试获得聊天内容显示在控制台上 ，实现把对话内容写到文件中
+		 */
+
+		WriteChatRecord.write2ChatFile(UI.panel_2.nameTitle.getText() + " :  " + UI.panel_2.textPane.getText());
 		
 		
 	}
