@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -27,7 +29,11 @@ import group.linzx.ChatRecord.WriteChatRecord;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChatPanel extends JPanel{
 	String name;
@@ -45,6 +51,26 @@ public class ChatPanel extends JPanel{
 	SimpleAttributeSet Yourself = new SimpleAttributeSet();
 	static public ArrayList<IDTextPane> list=new ArrayList<IDTextPane>();
 	
+	
+	//添加字库方法
+	public Font getFont(float size) {  
+        String pathString = getClass().getClassLoader().getResource("HanYix.ttf").getFile();  
+        try {  
+            Font dynamicFont = Font.createFont(Font.PLAIN, new File(pathString));  
+            
+            dynamicFont = dynamicFont.deriveFont(size);  
+            return dynamicFont;  
+        } catch (FontFormatException ex) {  
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);  
+        } catch (IOException ex) {  
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);  
+        }  
+          
+        return null;  
+}
+	
+	
+	
 	public ChatPanel(String name) {
 		setLayout(null);
 		this.name=name;
@@ -55,8 +81,8 @@ public class ChatPanel extends JPanel{
 		NameTitle.setLayout(null);
 		
 		nameTitle = new JLabel(name);
-		nameTitle.setFont(new Font("微软雅黑", Font.PLAIN, 24));
-		nameTitle.setBounds(30, 10, 99, 30);
+		nameTitle.setFont(this.getFont(24));
+		nameTitle.setBounds(30, 10, 100, 30);
 		NameTitle.add(nameTitle);
 		
 		showButton = new JButton("查看成员");
@@ -166,7 +192,7 @@ public class ChatPanel extends JPanel{
 			
 		
 		textPane.setBorder(null);
-		textPane.setFont(new Font("宋体", Font.PLAIN, 16));
+		textPane.setFont(this.getFont(16));
 
 		textPane.setBackground(new Color(245,245,245));
 	

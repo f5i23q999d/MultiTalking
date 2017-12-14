@@ -2,16 +2,42 @@ package group.li;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ListPanel extends JPanel{
+	
+	
+	//添加字库方法
+			public Font getFont(float size) {  
+		        String pathString = getClass().getClassLoader().getResource("HanYix.ttf").getFile();  
+		        try {  
+		            Font dynamicFont = Font.createFont(Font.PLAIN, new File(pathString));  
+		            
+		            dynamicFont = dynamicFont.deriveFont(size);  
+		            return dynamicFont;  
+		        } catch (FontFormatException ex) {  
+		            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);  
+		        } catch (IOException ex) {  
+		            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);  
+		        }  
+		          
+		        return null;  
+		}
+			
+			
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		
 		namelabel.setText(name);
@@ -77,17 +103,20 @@ public class ListPanel extends JPanel{
 		add(ulabel);
 		
 		namelabel = new JLabel(name);
-		namelabel.setBounds(74, 10, 54, 15);
-		Font font1 = new java.awt.Font("黑体", Font.BOLD,12);
-		namelabel.setFont(font1);
+		namelabel.setBounds(60, 7, 55, 15);
+		
+		namelabel.setFont(this.getFont(14.5f));
 		add(namelabel);
 		
 		contextlabel = new JLabel(context);
-		contextlabel.setBounds(74, 33, 98, 15);
+		contextlabel.setBounds(60, 30, 100, 15);
+		contextlabel.setFont(this.getFont(11.5f));
+		contextlabel.setForeground(new Color(153,153,153));
 		add(contextlabel);
 		
 		timelabel = new JLabel(time);
 		timelabel.setBounds(168, 10, 54, 15);
+		timelabel.setForeground(new Color(153,153,153));
 		add(timelabel);
 		
 		

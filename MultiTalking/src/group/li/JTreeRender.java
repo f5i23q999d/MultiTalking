@@ -39,7 +39,7 @@ public class JTreeRender extends DefaultTreeCellRenderer{
             boolean hasFocus) {  
 		
 		
-		this.setFont(this.getFont(20.0f));
+		this.setFont(this.getFont(15.0f));
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;  
        
         if (node.getLevel() == 1) {         	//父节点
