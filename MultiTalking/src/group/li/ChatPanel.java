@@ -175,6 +175,7 @@ public class ChatPanel extends JPanel{
 		//textPane.setText("\r\n");
 		textPane.setEditable(false);
 		//textPane.setContentType("text/plain");
+		
 	    StyleConstants.setFontSize(Friend, 18);
 	    StyleConstants.setFontSize(Yourself, 18);
 	    StyleConstants.setAlignment(Yourself, StyleConstants.ALIGN_RIGHT);

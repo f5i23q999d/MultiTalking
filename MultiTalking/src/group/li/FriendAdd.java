@@ -6,11 +6,14 @@ import javax.swing.JTextField;
 import group.lin.dao.QueryInfoDAO;
 import group.lin.entity.UserDAO;
 import group.lin.util.DBUtil;
+import group.linzx.personInfo.GetImageFromServer;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 public class FriendAdd extends JFrame{
@@ -56,6 +59,9 @@ public class FriendAdd extends JFrame{
 						theID.setText(record[a][0]);
 						theName.setText(record[a][1]);
 						theInfo.setText(record[a][2]);
+						ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(UI.getPortrait(record[a][0])));
+						u2.setImage(u2.getImage().getScaledInstance(90, 90,Image.SCALE_DEFAULT));
+						portrait.setIcon(u2);
 						exist=true;
 						//System.out.println("更改后："+theID.getText()+"	"+theName.getText()+"     "+theInfo.getText());
 						
@@ -107,7 +113,7 @@ public class FriendAdd extends JFrame{
 		getContentPane().add(apply);
 		
 		portrait = new JLabel("这个是头像框");
-		portrait.setBounds(28, 142, 83, 94);
+		portrait.setBounds(28, 142, 90, 90);
 		portrait.setVisible(false);
 		getContentPane().add(portrait);
 		

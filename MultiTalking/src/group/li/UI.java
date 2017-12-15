@@ -509,14 +509,6 @@ public class UI extends JFrame{
 				
 				//UI.thread.SendAMessage("", "###@@");
 				System.exit(0);
-				for(int i=0;i<UI.panel_2.list.size();i++)
-						System.out.println("ID:"+UI.panel_2.list.get(i).ID+"    content:" +UI.panel_2.list.get(i).getText());
-					
-					
-					
-				
-				
-				
 				
 			}
 		});
@@ -566,21 +558,6 @@ public class UI extends JFrame{
 		
 		int total;
 		
-		
- if(list.size()>10)
-	 total=10;
- else
-	 total=list.size();
-		
-		for(int i=0;i<total;i++)
-		{
-			list.get(i).setName("好友"+i);
-			list.get(i).setU(new ImageIcon(UI.class.getResource("/icon/"+i+".png")));
-			panel.add(list.get(i));
-			addMouseListener(i);
-		//	System.out.println(list.get(i));
-
-		}
 
 	
 		
