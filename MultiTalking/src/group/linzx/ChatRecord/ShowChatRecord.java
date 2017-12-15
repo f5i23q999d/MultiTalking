@@ -13,6 +13,10 @@ import javax.swing.JTextArea;
 import group.li.UI;
 
 import javax.swing.JList;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ShowChatRecord {
 
@@ -50,28 +54,29 @@ public class ShowChatRecord {
 	 */
 	private void initialize() {
 		recordframe = new JFrame();
+		recordframe.getContentPane().setBackground(new Color(192, 192, 192));
 		recordframe.setBounds(100, 100, 714, 446);
 		//recordframe.setDefaultCloseOperation(recordframe.EXIT_ON_CLOSE);
 		recordframe.getContentPane().setLayout(null);
 		
-		JLabel label = new JLabel("请输入查找关键字：");
-		label.setBounds(35, 13, 161, 45);
-		recordframe.getContentPane().add(label);
-		
-		JTextArea ChatKeyWord = new JTextArea();
-		ChatKeyWord.setBounds(193, 24, 346, 24);
-		recordframe.getContentPane().add(ChatKeyWord);
-		
-		JButton search = new JButton("查找");
-		search.setBounds(564, 23, 104, 24);
+		JButton search = new JButton("exit");
+		search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				recordframe.dispose();
+			}
+		});
+		search.setForeground(new Color(255, 255, 255));
+		search.setFont(new Font("幼圆", Font.BOLD, 17));
+		search.setBounds(548, 358, 94, 30);
 		recordframe.getContentPane().add(search);
 		
 		
 		
 	    textArea = new JTextArea();
+	    textArea.setBackground(new Color(255, 255, 255));
 	    getRecordChat(textArea);
 		textArea.setEnabled(false);
-		textArea.setBounds(14, 56, 682, 345);
+		textArea.setBounds(14, 13, 668, 332);
 		recordframe.getContentPane().add(textArea);
 	}
 	

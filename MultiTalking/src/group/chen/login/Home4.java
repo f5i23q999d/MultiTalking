@@ -639,6 +639,7 @@ public class Home4 extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	Home4 t=new Home4();
+            	
                 t.setVisible(true);
             }
         });

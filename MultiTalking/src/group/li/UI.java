@@ -15,6 +15,7 @@ import group.linzx.personInfo.GetImageFromServer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
@@ -234,7 +235,7 @@ public class UI extends JFrame{
 	
 	
 	public UI(String ID) {
-		
+		 
 		
 		
 		UI.ID=ID;//记录ID
@@ -262,6 +263,8 @@ public class UI extends JFrame{
 		});
 		
 		////////////////////
+	
+		
 		
 		
 		CP=new ContactPanel(ID);

@@ -1,32 +1,29 @@
 package group.linzx.personInfo;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import group.li.UI;
 import group.lin.util.DBUtil;
-/*
+/*lzx:
  * 调用该类显示、修改个人信息
  * 调用要求：必须告知该类调用的用户名称username
  */
@@ -42,6 +39,9 @@ public class showPersonInfo {
 	public String DBtele = "";
 	public String DBintroduction = "";
 	public String DBportrait="";
+	
+	// 全局的位置变量，用于表示鼠标在窗口上的位置
+		static Point origin = new Point();
 
 	/**
 	 * Launch the application.
@@ -52,6 +52,7 @@ public class showPersonInfo {
 				try {
 					showPersonInfo window = new showPersonInfo();
 					window.Personframe.setVisible(true);
+					window.Personframe.setUndecorated(true);  
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -94,10 +95,43 @@ public class showPersonInfo {
 		Personframe = new JFrame();
 		Personframe.getContentPane().setFont(new Font("Verdana", Font.PLAIN, 22));
 		Personframe.getContentPane().setIgnoreRepaint(true);
-		Personframe.getContentPane().setBackground(new Color(97, 212, 195));
+		Personframe.getContentPane().setBackground(new Color(47, 79, 79));
 		Personframe.setBounds(100, 100, 850, 580);
 		Personframe.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		Personframe.getContentPane().setLayout(null);
+		Personframe.setUndecorated(true);  
+		
+		
+		/*
+		 * 设置窗口居中
+		 */
+		int windowWidth = Personframe.getWidth();                     //获得窗口宽  
+		 int windowHeight = Personframe.getHeight();                   //获得窗口高  
+		 Toolkit kit = Toolkit.getDefaultToolkit();              //定义工具包  
+		 Dimension screenSize = kit.getScreenSize();             //获取屏幕的尺寸  
+		 int screenWidth = screenSize.width;                     //获取屏幕的宽  
+		 int screenHeight = screenSize.height;                   //获取屏幕的高  
+		 Personframe.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);//设置窗口居中显示  
+		
+		 Personframe.addMouseListener(new MouseAdapter() {
+				// 按下（mousePressed 不是点击，而是鼠标被按下没有抬起）
+				public void mousePressed(MouseEvent e) {
+					// 当鼠标按下的时候获得窗口当前的位置
+					origin.x = e.getX();
+					origin.y = e.getY();
+				}
+			});
+			
+		 Personframe.addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					// 当鼠标拖动时获取窗口当前位置
+					Point p = Personframe.getLocation();
+					// 设置窗口的位置
+					// 窗口当前的位置 + 鼠标当前在窗口的位置 - 鼠标按下的时候在窗口的位置
+					Personframe.setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
+				}
+			});
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIgnoreRepaint(true);
@@ -147,7 +181,7 @@ public class showPersonInfo {
 				
 			}
 		});
-		btnNewButton.setBackground(new Color(102, 204, 204));
+		btnNewButton.setBackground(new Color(128, 128, 128));
 		btnNewButton.setBounds(419, 207, 155, 35);
 		Personframe.getContentPane().add(btnNewButton);
 
@@ -189,7 +223,7 @@ public class showPersonInfo {
 		});
 		btnExit.setForeground(Color.WHITE);
 		btnExit.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnExit.setBackground(new Color(102, 204, 255));
+		btnExit.setBackground(new Color(128, 128, 128));
 		btnExit.setBounds(598, 472, 68, 47);
 		Personframe.getContentPane().add(btnExit);
 
@@ -204,7 +238,7 @@ public class showPersonInfo {
 		});
 		btnClose.setForeground(Color.WHITE);
 		btnClose.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnClose.setBackground(new Color(102, 204, 255));
+		btnClose.setBackground(new Color(128, 128, 128));
 		btnClose.setBounds(687, 472, 92, 47);
 		Personframe.getContentPane().add(btnClose);
 
@@ -227,7 +261,7 @@ public class showPersonInfo {
 		});
 		btnApply.setForeground(Color.WHITE);
 		btnApply.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnApply.setBackground(new Color(102, 204, 255));
+		btnApply.setBackground(new Color(128, 128, 128));
 		btnApply.setBounds(494, 472, 81, 47);
 		Personframe.getContentPane().add(btnApply);
 
