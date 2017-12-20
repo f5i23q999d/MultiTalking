@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import group.li.ContactPanel;
@@ -124,7 +125,7 @@ class CTGetMessage implements Runnable {
 				if(getContent(msg).equals("*"))
 				{
 					UI.CP=new ContactPanel(UI.ID);//刷新好友面板
-					JOptionPane.showMessageDialog(null,UI.ID+"已同意好友申请!");
+					JOptionPane.showMessageDialog(null,getID(msg)+"已同意好友申请!");
 					
 				}
 				else	if(getContent(msg).equals("/"))
@@ -162,6 +163,8 @@ class CTGetMessage implements Runnable {
 					UI.list.get(UI.list.size()-1).setBackground(new Color(200, 200, 200));//颜色调整
 				}
 				UI.pageSwitch(0);//及时刷新中间面板
+				UI.contactButton.setIcon(new ImageIcon(UI.class.getResource("/tab/8.png")));
+				UI.chatButton.setIcon(new ImageIcon(UI.class.getResource("/tab/7.png")));
 				
 				
 				//UI.panel_2.nameTitle.setText(getID(msg));	

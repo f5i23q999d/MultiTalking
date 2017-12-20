@@ -87,6 +87,7 @@ public class showPersonInfo {
 				DBtele = rs.getString(6);
 				DBintroduction = rs.getString(7);
 				ResetURL=DBportrait;
+				System.err.println(ResetURL);
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();

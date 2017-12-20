@@ -48,9 +48,9 @@ public class UI extends JFrame{
 	//对话框或联系人所对应的面板
 	static public JPanel panel;
 	//左侧对话按钮
-	static JButton chatButton;
+	public static JButton chatButton;
 	//左侧联系人按钮
-	static JButton contactButton;
+	public static JButton contactButton;
 	//联系人面板
 	public static ContactPanel CP;
 	//移动至。。

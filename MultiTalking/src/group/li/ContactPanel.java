@@ -54,7 +54,7 @@ public class ContactPanel extends JScrollPane{
 				//先从数据库中查找好友信息并且存入record中，其中每项里，[0]值接受方，[1]值对应组名
 				Frirecord=r.queryForContactList(t);
 				
-				
+			
 				DefaultMutableTreeNode node_1;
 			if(Frirecord!=null)//防止新用户会报错
 			{

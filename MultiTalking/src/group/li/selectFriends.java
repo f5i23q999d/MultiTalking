@@ -94,11 +94,12 @@ public class selectFriends extends JFrame{
 		JB.add(chckbxNewCheckBox);
 		getContentPane().add(chckbxNewCheckBox);
 		
-		for(i=1;i<UI.CP.Frirecord.length;i++)
+		for(i=1;i<=UI.CP.Frirecord.length;i++)
 		{
-					chckbxNewCheckBox = new JCheckBox(UI.CP.Frirecord[i][0]);
+					chckbxNewCheckBox = new JCheckBox(UI.CP.Frirecord[i-1][0]);
 					chckbxNewCheckBox.setBounds(0, 25*i, 100, 25);
 					JB.add(chckbxNewCheckBox);
+					//System.err.println(UI.CP.Frirecord[i][0]);
 					getContentPane().add(chckbxNewCheckBox);
 					
 		}
