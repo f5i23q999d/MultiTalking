@@ -12,6 +12,7 @@ import javax.swing.tree.TreeNode;
 import group.li.thread.ChatClient;
 import group.lin.util.DBUtil;
 import group.linzx.personInfo.GetImageFromServer;
+import group.linzx.personInfo.showPersonInfo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

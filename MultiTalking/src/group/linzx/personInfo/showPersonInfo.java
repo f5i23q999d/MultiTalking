@@ -3,6 +3,7 @@ package group.linzx.personInfo;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -34,7 +35,8 @@ import group.lin.util.DBUtil;
 public class showPersonInfo {
 	public static String ResetURL;
 	public static int isnull = 0;
-	public JFrame Personframe;
+	public static JFrame Personframe;
+	public static JLabel po;
 	private JTextField tele;
 	String temp1 = "";
 	String temp2 = ""; // 存放编辑的文本框内容，用于按钮“apply”
@@ -87,7 +89,7 @@ public class showPersonInfo {
 				DBtele = rs.getString(6);
 				DBintroduction = rs.getString(7);
 				ResetURL=DBportrait;
-				System.err.println(ResetURL);
+				
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -95,23 +97,18 @@ public class showPersonInfo {
 		Personframe = new JFrame();
 		Personframe.getContentPane().setFont(new Font("Verdana", Font.PLAIN, 22));
 		Personframe.getContentPane().setIgnoreRepaint(true);
-		Personframe.getContentPane().setBackground(new Color(97, 212, 195));
+		Personframe.getContentPane().setBackground(new Color(47, 79, 79));
 		Personframe.setBounds(100, 100, 850, 580);
 		Personframe.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		Personframe.getContentPane().setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIgnoreRepaint(true);
-			if(isnull==0) {
-				lblNewLabel.setIcon(new ImageIcon(GetImageFromServer.getImageFromServer(ResetURL)));//showPersonInfo.class.getResource("/icon/krystal.JPG")
+			/*if(isnull==0) {
+				po.setIcon(new ImageIcon(GetImageFromServer.getImageFromServer("http://123.207.117.122/UsersPortraits/b.JPG")));//showPersonInfo.class.getResource("/icon/krystal.JPG")
+				System.err.println(ResetURL);			
 			}else {
 				System.out.println("正在上传新图片");
-			}
+			}*/
 		
-		lblNewLabel.setBackground(Color.GRAY);
-		lblNewLabel.setBounds(195, 42, 198, 200);
-		Personframe.getContentPane().add(lblNewLabel);
-
+		
 		JLabel UserName = new JLabel("Krystal");
 		UserName.setFont(new Font("微软雅黑", Font.PLAIN, 37));
 		UserName.setForeground(new Color(255, 255, 255));
@@ -148,7 +145,7 @@ public class showPersonInfo {
 				
 			}
 		});
-		btnNewButton.setBackground(new Color(102, 204, 204));
+		btnNewButton.setBackground(new Color(192, 192, 192));
 		btnNewButton.setBounds(419, 207, 155, 35);
 		Personframe.getContentPane().add(btnNewButton);
 
@@ -190,7 +187,7 @@ public class showPersonInfo {
 		});
 		btnExit.setForeground(Color.WHITE);
 		btnExit.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnExit.setBackground(new Color(102, 204, 255));
+		btnExit.setBackground(new Color(192, 192, 192));
 		btnExit.setBounds(598, 472, 68, 47);
 		Personframe.getContentPane().add(btnExit);
 
@@ -205,9 +202,18 @@ public class showPersonInfo {
 		});
 		btnClose.setForeground(Color.WHITE);
 		btnClose.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnClose.setBackground(new Color(102, 204, 255));
+		btnClose.setBackground(new Color(192, 192, 192));
 		btnClose.setBounds(687, 472, 92, 47);
 		Personframe.getContentPane().add(btnClose);
+		
+		JLabel po = new JLabel("");
+		ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(ResetURL));
+		//下面这行表示按比例缩放图片
+		u2.setImage(u2.getImage().getScaledInstance(200, 200,  Image.SCALE_DEFAULT));
+		po.setIcon(u2);
+		System.out.println(ResetURL);
+		po.setBounds(151, 54, 201, 186);
+		Personframe.getContentPane().add(po);
 
 		/*
 		 * 确认修改信息
@@ -220,17 +226,28 @@ public class showPersonInfo {
 				o1[1] = introduction.getText();
 				o1[2]= ResetURL;
 				o1[3]= UI.ID;
+				System.err.println(ResetURL+"上传成功");
 				db.executeUpdate("update USER set tele=?,introduction=?,portrait=? where userId=?", o1); // ？不可加单引号
 				tele.setEditable(false);
 				introduction.setEditable(false);
+				
+				
 				UI.setPortrait();
+				ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(ResetURL));
+				//下面这行表示按比例缩放图片
+				u2.setImage(u2.getImage().getScaledInstance(200, 200,  Image.SCALE_DEFAULT));
+				po.setIcon(u2);
+				
 			}
 		});
 		btnApply.setForeground(Color.WHITE);
 		btnApply.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnApply.setBackground(new Color(102, 204, 255));
+		btnApply.setBackground(new Color(192, 192, 192));
 		btnApply.setBounds(494, 472, 81, 47);
 		Personframe.getContentPane().add(btnApply);
+		
+		
+		
 
 	}
 
@@ -267,6 +284,6 @@ public class showPersonInfo {
 	public static void repaint1(String url) {
 		isnull = 1;
 		ResetURL = url;
-
+	
 	}
 }

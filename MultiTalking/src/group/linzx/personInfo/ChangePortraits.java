@@ -78,10 +78,6 @@ public class ChangePortraits {
 		button_1.setBounds(527, 105, 113, 27);
 		frame.getContentPane().add(button_1);
 		
-		JLabel label_1 = new JLabel("注意：当下次登录时，即可看到修改后的图片。");
-		label_1.setForeground(Color.GRAY);
-		label_1.setFont(new Font("宋体", Font.PLAIN, 12));
-		label_1.setBounds(14, 131, 306, 23);
-		frame.getContentPane().add(label_1);
+		
 	}
 }
