@@ -30,9 +30,9 @@ public class ContactListDAO extends BaseDAO {
 		}
 		
 		List<ContactDAO> list = new ArrayList<ContactDAO>(); 
-		String sql="select receiverId,GroupName from CONTACT where accept=1 and senderId=?";
-		Object[] param = {user.getUserId()};
-		rs = db.executeQuery(sql, param);
+		String sql="select receiverId,GroupName from CONTACT";
+	
+		rs = db.executeQuery(sql);
 		try{
 			while(rs.next()) {
 				buildList(rs, list, i);

@@ -13,22 +13,12 @@ import java.awt.event.ActionEvent;
 
 public class SettingPanel extends JFrame{
 	public SettingPanel() {
+		
+		System.err.println(UI.rights);
 		setResizable(false);
-		getContentPane().setLayout(new GridLayout(5, 1, 0, 0));
+		getContentPane().setLayout(new GridLayout(7, 1, 0, 0));
 		
-		JButton AddFriend = new JButton("添加好友");
-		AddFriend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FriendAdd fa=new FriendAdd(UI.ID);
-				fa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				fa.setSize(500, 300);
-				fa.setLocale(null);
-				fa.setVisible(true);
-			}
-		});
-		getContentPane().add(AddFriend);
-		
-		JButton createGroup = new JButton("创建群聊");
+		JButton createGroup = new JButton("创建讨论组");
 		createGroup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				selectFriends sf=new selectFriends();
@@ -39,10 +29,13 @@ public class SettingPanel extends JFrame{
 				
 			}
 		});
+		
+		JButton button = new JButton("签到打卡");
+		getContentPane().add(button);
 		getContentPane().add(createGroup);
 	
 		
-		JButton MManager = new JButton("消息管理");
+		JButton MManager = new JButton("任务中心");
 		MManager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageManager SM=new MessageManager();
@@ -63,14 +56,24 @@ public class SettingPanel extends JFrame{
 				a.Personframe.setVisible(true);
 			}
 		});
-		getContentPane().add(SetInfo);
 		
-		JButton About = new JButton("关于");
+		JButton About = new JButton("文件传输系统");
 		About.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		getContentPane().add(About);
+		getContentPane().add(SetInfo);
+		
+		
+		if(UI.rights==1)
+		{
+		JButton btnNewButton = new JButton("账号分配");
+		getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("账号信息修改");
+		getContentPane().add(btnNewButton_1);
+		}
 	}
 
 }

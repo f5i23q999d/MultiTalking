@@ -61,7 +61,7 @@ public class UI extends JFrame{
 	static public ChatPanel panel_2;
 	
 	//设置
-	static SettingPanel SP=new SettingPanel();
+	static SettingPanel SP;
 	
 	//头像
 	static JLabel face;
@@ -74,6 +74,9 @@ public class UI extends JFrame{
 	
 	// 全局的位置变量，用于表示鼠标在窗口上的位置
 	static Point origin = new Point();
+	
+	//设置当前用户 的权限
+	static public int rights;
 	
 	//为每一个对话项实现选中效果
 	public static void addMouseListener(int i)
@@ -276,6 +279,26 @@ public class UI extends JFrame{
 
 		panel.setLayout(new GridLayout(10, 1, 0, 0));
 		
+		
+		
+		
+		DBUtil db = DBUtil.getDBUtil();
+		String DBportrait="";
+		ResultSet rs = db.executeQuery("select * from USER where userId='"+UI.ID+"'");
+		try {
+			if (rs.next()) {
+				DBportrait=rs.getString(5);
+				rights=rs.getInt(8);
+				System.err.println("UI.ID:"+UI.ID+"	权限："+rs.getInt(8));
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		
+		
 		JButton lastPage = new JButton("<<");
 		lastPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -352,7 +375,7 @@ public class UI extends JFrame{
 		JButton button_1 = new JButton("");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				SP=new SettingPanel();
 				SP.setSize(200, 200);
 				//SP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				SP.setLocale(null);
@@ -367,18 +390,6 @@ public class UI extends JFrame{
 		panel_1.add(button_1);
 		
 		
-		DBUtil db = DBUtil.getDBUtil();
-		String DBportrait="";
-		ResultSet rs = db.executeQuery("select * from USER where userId='"+UI.ID+"'");
-		try {
-			if (rs.next()) {
-				DBportrait=rs.getString(5);
-			
-			}
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
 		
 		
 		
@@ -398,6 +409,7 @@ public class UI extends JFrame{
 		
 		
 		JButton delButton = new JButton("删除");
+		delButton.setVisible(false);
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DefaultTreeModel tmp=(DefaultTreeModel)CP.tree.getModel();
@@ -409,6 +421,7 @@ public class UI extends JFrame{
 		getContentPane().add(delButton);
 		
 		label = new JLabel("移动到：");
+		label.setVisible(false);
 		label.setBounds(329, 503, 54, 15);
 		getContentPane().add(label);
 		
@@ -420,6 +433,7 @@ public class UI extends JFrame{
 		//node.getChildAt(i).toString()
 		
 		MOVE = new JComboBox();
+		MOVE.setVisible(false);
 		MOVE.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				
@@ -491,6 +505,7 @@ public class UI extends JFrame{
 		getContentPane().add(MOVE);
 		
 		JButton addContactGroupbutton = new JButton("添加分组");
+		addContactGroupbutton.setVisible(false);
 		addContactGroupbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ContactGroupAdd fa=new ContactGroupAdd();
@@ -571,6 +586,11 @@ public class UI extends JFrame{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		
+		
+		
+	
 }
 	
 	

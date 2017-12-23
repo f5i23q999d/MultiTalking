@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -114,6 +115,19 @@ public class ChatPanel extends JPanel{
 		textType.add(emoji);
 		
 		sendFile = new JButton("");
+		sendFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jfc=new JFileChooser();  
+		        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);  
+		        jfc.showDialog(new JLabel(), "选择");  
+		        UI.thread.SendAMessage(nameTitle.getText(),"FF");
+		        UI.thread.sendFile(jfc.getSelectedFile().toString());
+		        
+		        System.out.println(jfc.getSelectedFile());  
+				
+				
+			}
+		});
 		sendFile.setIcon(new ImageIcon(ChatPanel.class.getResource("/tab/17.png")));
 		sendFile.setBounds(65, 10, 23, 23);
 		textType.add(sendFile);
