@@ -1,15 +1,14 @@
 package group.li;
 
-import javax.swing.JPanel;
-
-import group.linzx.personInfo.showPersonInfo;
-
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import group.linzx.AttendanceSystem.PermanentCalendar;
+import group.linzx.personInfo.showPersonInfo;
 
 public class SettingPanel extends JFrame{
 	public SettingPanel() {
@@ -31,6 +30,12 @@ public class SettingPanel extends JFrame{
 		});
 		
 		JButton button = new JButton("签到打卡");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			 PermanentCalendar check=new PermanentCalendar();
+			 check.setVisible(true);
+					}
+		});
 		getContentPane().add(button);
 		getContentPane().add(createGroup);
 	

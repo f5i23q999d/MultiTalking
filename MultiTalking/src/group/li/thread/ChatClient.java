@@ -70,8 +70,8 @@ public class ChatClient {
 
 	public static void main(String[] args) throws Exception {
 
-		socket = new Socket("127.0.0.1", 6666);
-		// socket=new Socket("123.207.117.122", 6666);
+		//socket = new Socket("127.0.0.1", 6666);
+		 socket=new Socket("123.207.117.122", 6666);
 
 		String name = UI.ID;
 		System.out.println("客户端已经链接.....");
