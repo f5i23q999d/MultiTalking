@@ -76,7 +76,7 @@ public class JTreeRender extends DefaultTreeCellRenderer{
         	//System.out.println(UI.CP.tree.getLastSelectedPathComponent().toString());
         	DefaultMutableTreeNode getSelect=(DefaultMutableTreeNode)UI.CP.tree.getLastSelectedPathComponent();
         	
-        	UI.MOVE.setSelectedItem(getSelect.getParent().toString());
+        	//UI.MOVE.setSelectedItem(getSelect.getParent().toString());
         	
         }
         else

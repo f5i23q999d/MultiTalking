@@ -33,6 +33,7 @@ import group.li.UI;
 import group.lin.base.BaseDAO;
 import group.lin.entity.UserDAO;
 import javax.swing.JButton;
+import java.awt.Font;
 /**
  *
  * @author proxc
@@ -96,18 +97,6 @@ public class Home4 extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         swipeTo_sginIn = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jSeparator8 = new javax.swing.JSeparator();
-        jSeparator9 = new javax.swing.JSeparator();
-        Password_Signin = new javax.swing.JPasswordField();
-        userName_SignIn = new javax.swing.JTextField();
-        SignIn_Button = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        swipeTo_Signup = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -265,6 +254,152 @@ public class Home4 extends javax.swing.JFrame {
                 jLabel10MouseReleased(evt);
             }
         });
+        jPanel6 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        jSeparator9 = new javax.swing.JSeparator();
+        Password_Signin = new javax.swing.JPasswordField();
+        userName_SignIn = new javax.swing.JTextField();
+        SignIn_Button = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        
+                jPanel6.setBackground(new java.awt.Color(36, 47, 65));
+                
+                        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+                        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
+                        jLabel6.setText("Sign In");
+                        
+                                jLabel15.setFont(new Font("微软雅黑", Font.BOLD, 14)); // NOI18N
+                                jLabel15.setForeground(new java.awt.Color(204, 204, 204));
+                                jLabel15.setText("用户名");
+                                
+                                        jLabel16.setFont(new Font("微软雅黑", Font.BOLD, 14)); // NOI18N
+                                        jLabel16.setForeground(new java.awt.Color(204, 204, 204));
+                                        jLabel16.setText("密码");
+                                        
+                                                jSeparator8.setForeground(new java.awt.Color(255, 255, 255));
+                                                
+                                                        jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
+                                                        
+                                                                Password_Signin.setBackground(new java.awt.Color(36, 47, 65));
+                                                                Password_Signin.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+                                                                Password_Signin.setForeground(new java.awt.Color(255, 255, 255));
+                                                                Password_Signin.setBorder(null);
+                                                                Password_Signin.addFocusListener(new java.awt.event.FocusAdapter() {
+                                                                    public void focusGained(java.awt.event.FocusEvent evt) {
+                                                                        jPasswordField2FocusGained(evt);
+                                                                    }
+                                                                });
+                                                                Password_Signin.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                        jPasswordField2MouseClicked(evt);
+                                                                    }
+                                                                });
+                                                                
+                                                                        userName_SignIn.setBackground(new java.awt.Color(36, 47, 65));
+                                                                        userName_SignIn.setFont(new Font("微软雅黑", Font.PLAIN, 12)); // NOI18N
+                                                                        userName_SignIn.setForeground(new java.awt.Color(255, 255, 255));
+                                                                        userName_SignIn.setText("Enter you username");
+                                                                        userName_SignIn.setBorder(null);
+                                                                        userName_SignIn.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+                                                                        userName_SignIn.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                                            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                                jTextField3MouseClicked(evt);
+                                                                            }
+                                                                        });
+                                                                        userName_SignIn.addActionListener(new java.awt.event.ActionListener() {
+                                                                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                                                jTextField3ActionPerformed(evt);
+                                                                            }
+                                                                        });
+                                                                        
+                                                                                SignIn_Button.setBackground(new java.awt.Color(97, 212, 195));
+                                                                                SignIn_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                                                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                                    	String password = new String(Password_Signin.getPassword());
+                                                                                    	if(isNull(userName_SignIn.getText()) || isNull(password)) {
+                                                                                    		JOptionPane.showMessageDialog(null, "账号或密码为空");
+                                                                                    	}
+                                                                                    	if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForUserName(userName_SignIn.getText())) {
+                                                                                    		if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForPassword(userName_SignIn.getText(),password)) {
+                                                                                    			dispose();//关闭登陆窗口
+                                                                                    			UI T2=new UI(userName_SignIn.getText());
+                                                                                    			T2.getContentPane().update(null);
+                                                                                    			T2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                                                                    			T2.setSize(850,520);
+                                                                                    			T2.setResizable(false);
+                                                                                    			T2.setVisible(true);
+                                                                                    			
+                                                                                    			
+                                                                                    		} else {
+                                                                                    			JOptionPane.showMessageDialog(null, "密码错误");
+                                                                                    		}
+                                                                                    	} else {
+                                                                                    		JOptionPane.showMessageDialog(null, "账号不存在");
+                                                                                    	}
+                                                                                        //jPanel4MouseClicked(evt);
+                                                                                    }
+                                                                                });
+                                                                                SignIn_Button.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+                                                                                
+                                                                                        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+                                                                                        jLabel17.setForeground(new java.awt.Color(204, 204, 204));
+                                                                                        jLabel17.setText("EMAIL");
+                                                                                        SignIn_Button.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, -1, -1));
+                                                                                        
+                                                                                                jLabel18.setFont(new Font("微软雅黑", Font.BOLD, 14)); // NOI18N
+                                                                                                jLabel18.setForeground(new java.awt.Color(204, 204, 204));
+                                                                                                jLabel18.setText("登陆");
+                                                                                                jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                                                                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                                                        jLabel18MouseClicked(evt);
+                                                                                                    }
+                                                                                                });
+                                                                                                SignIn_Button.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+                                                                                                        
+                                                                                                                javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+                                                                                                                jPanel6Layout.setHorizontalGroup(
+                                                                                                                	jPanel6Layout.createParallelGroup(Alignment.TRAILING)
+                                                                                                                		.addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                                			.addContainerGap(68, Short.MAX_VALUE)
+                                                                                                                			.addGroup(jPanel6Layout.createParallelGroup(Alignment.LEADING)
+                                                                                                                				.addComponent(jLabel6)
+                                                                                                                				.addComponent(jLabel15)
+                                                                                                                				.addComponent(userName_SignIn, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                                                                                                                				.addComponent(jSeparator8, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                                                                                                                				.addComponent(jLabel16)
+                                                                                                                				.addComponent(Password_Signin, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                                                                                                                				.addComponent(jSeparator9, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                                                                                                                				.addComponent(SignIn_Button, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
+                                                                                                                			.addGap(0, 78, Short.MAX_VALUE))
+                                                                                                                );
+                                                                                                                jPanel6Layout.setVerticalGroup(
+                                                                                                                	jPanel6Layout.createParallelGroup(Alignment.LEADING)
+                                                                                                                		.addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                                			.addGap(62)
+                                                                                                                			.addComponent(jLabel6)
+                                                                                                                			.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                                                                                                                			.addComponent(jLabel15)
+                                                                                                                			.addPreferredGap(ComponentPlacement.RELATED)
+                                                                                                                			.addComponent(userName_SignIn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                                                                                                                			.addGap(1)
+                                                                                                                			.addComponent(jSeparator8, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+                                                                                                                			.addPreferredGap(ComponentPlacement.UNRELATED)
+                                                                                                                			.addComponent(jLabel16)
+                                                                                                                			.addPreferredGap(ComponentPlacement.RELATED)
+                                                                                                                			.addComponent(Password_Signin, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                                                                                                                			.addPreferredGap(ComponentPlacement.RELATED)
+                                                                                                                			.addComponent(jSeparator9, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+                                                                                                                			.addGap(103)
+                                                                                                                			.addComponent(SignIn_Button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                                                                                			.addGap(142))
+                                                                                                                );
+                                                                                                                jPanel6.setLayout(jPanel6Layout);
+                                                                                                                
+                                                                                                                        jPanelSlider1.add(jPanel6, "card2");
 
         jSeparator6.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -332,156 +467,6 @@ public class Home4 extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
 
         jPanelSlider1.add(jPanel5, "card2");
-
-        jPanel6.setBackground(new java.awt.Color(36, 47, 65));
-
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel6.setText("Sign In");
-
-        jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel15.setText("USERNAME");
-
-        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel16.setText("PASSWORD");
-
-        jSeparator8.setForeground(new java.awt.Color(255, 255, 255));
-
-        jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
-
-        Password_Signin.setBackground(new java.awt.Color(36, 47, 65));
-        Password_Signin.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Password_Signin.setForeground(new java.awt.Color(255, 255, 255));
-        Password_Signin.setBorder(null);
-        Password_Signin.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jPasswordField2FocusGained(evt);
-            }
-        });
-        Password_Signin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPasswordField2MouseClicked(evt);
-            }
-        });
-
-        userName_SignIn.setBackground(new java.awt.Color(36, 47, 65));
-        userName_SignIn.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        userName_SignIn.setForeground(new java.awt.Color(255, 255, 255));
-        userName_SignIn.setText("Enter you username");
-        userName_SignIn.setBorder(null);
-        userName_SignIn.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-        userName_SignIn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField3MouseClicked(evt);
-            }
-        });
-        userName_SignIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        SignIn_Button.setBackground(new java.awt.Color(97, 212, 195));
-        SignIn_Button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-            	String password = new String(Password_Signin.getPassword());
-            	if(isNull(userName_SignIn.getText()) || isNull(password)) {
-            		JOptionPane.showMessageDialog(null, "账号或密码为空");
-            	}
-            	if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForUserName(userName_SignIn.getText())) {
-            		if(((LoginDAO) BaseDAO.getAbilityDAO(DAO.LoginDAO)).queryForPassword(userName_SignIn.getText(),password)) {
-            			dispose();//关闭登陆窗口
-            			UI T2=new UI(userName_SignIn.getText());
-            			T2.getContentPane().update(null);
-            			T2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            			T2.setSize(850,520);
-            			T2.setResizable(false);
-            			T2.setVisible(true);
-            			
-            			
-            		} else {
-            			JOptionPane.showMessageDialog(null, "密码错误");
-            		}
-            	} else {
-            		JOptionPane.showMessageDialog(null, "账号不存在");
-            	}
-                //jPanel4MouseClicked(evt);
-            }
-        });
-        SignIn_Button.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel17.setText("EMAIL");
-        SignIn_Button.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel18.setText("SignIn");
-        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel18MouseClicked(evt);
-            }
-        });
-        SignIn_Button.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
-
-        swipeTo_Signup.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        swipeTo_Signup.setForeground(new java.awt.Color(204, 204, 204));
-        swipeTo_Signup.setText("New Here?");
-        swipeTo_Signup.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jLabel14MouseReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(0, 68, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel15)
-                    .addComponent(userName_SignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16)
-                    .addComponent(Password_Signin, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SignIn_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 78, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(swipeTo_Signup)
-                .addGap(94, 94, 94))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userName_SignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Password_Signin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(swipeTo_Signup)
-                .addGap(15, 15, 15)
-                .addComponent(SignIn_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 139, Short.MAX_VALUE))
-        );
-
-        jPanelSlider1.add(jPanel6, "card2");
 
         getContentPane().add(jPanelSlider1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -603,11 +588,6 @@ public class Home4 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField2MouseClicked
 
-    private void jLabel14MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseReleased
-       jPanelSlider1.nextPanel(10, jPanel5, jPanelSlider1.right);
-       // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel14MouseReleased
-
     /**
      * @param args the command line arguments
      */
@@ -651,7 +631,6 @@ public class Home4 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel swipeTo_Signup;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

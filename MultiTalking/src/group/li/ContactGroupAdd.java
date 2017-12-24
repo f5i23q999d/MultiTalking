@@ -39,8 +39,8 @@ public class ContactGroupAdd extends JFrame{
 				//	System.out.println("text:"+inputName.getText()+"	name:"+node.getChildAt(i));
 				//UI.panel.revalidate();
 				//UI.panel.repaint();
-				DefaultComboBoxModel CB=(DefaultComboBoxModel)UI.MOVE.getModel();
-				CB.addElement(inputName.getText());
+			//	DefaultComboBoxModel CB=(DefaultComboBoxModel)UI.MOVE.getModel();
+			//	CB.addElement(inputName.getText());
 				
 				UI.CP.revalidate();
 				UI.CP.repaint();

@@ -12,6 +12,7 @@ import javax.swing.tree.TreeNode;
 import group.li.thread.ChatClient;
 import group.lin.util.DBUtil;
 import group.linzx.personInfo.GetImageFromServer;
+import group.linzx.personInfo.showOtherPersonInfo;
 import group.linzx.personInfo.showPersonInfo;
 
 import java.awt.BorderLayout;
@@ -54,8 +55,6 @@ public class UI extends JFrame{
 	public static JButton contactButton;
 	//联系人面板
 	public static ContactPanel CP;
-	//移动至。。
-	static JComboBox MOVE;
 	
 	//聊天实现
 	static public ChatPanel panel_2;
@@ -68,8 +67,6 @@ public class UI extends JFrame{
 	
 	//保存当前账号ID
 	public static String ID;
-	
-	static JLabel label;
 	static ChatClient thread;
 	
 	// 全局的位置变量，用于表示鼠标在窗口上的位置
@@ -408,88 +405,9 @@ public class UI extends JFrame{
 		
 		
 		
-		JButton delButton = new JButton("删除");
-		delButton.setVisible(false);
-		delButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				DefaultTreeModel tmp=(DefaultTreeModel)CP.tree.getModel();
-				tmp.removeNodeFromParent((DefaultMutableTreeNode)CP.tree.getLastSelectedPathComponent());
-		
-			}
-		});
-		delButton.setBounds(178, 499, 81, 23);
-		getContentPane().add(delButton);
-		
-		label = new JLabel("移动到：");
-		label.setVisible(false);
-		label.setBounds(329, 503, 54, 15);
-		getContentPane().add(label);
-		
-		
-		
 		
 		CP.tree.setBackground(new Color(228,228,228));
 		TreeNode node = (TreeNode)CP.tree.getModel().getRoot();
-		//node.getChildAt(i).toString()
-		
-		MOVE = new JComboBox();
-		MOVE.setVisible(false);
-		MOVE.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				
-				
-				if(arg0.getStateChange()==ItemEvent.SELECTED)
-					
-				{
-				TreeNode node = (TreeNode) CP.tree.getModel().getRoot();
-				DefaultTreeModel tmp=(DefaultTreeModel)CP.tree.getModel();
-				
-				int index=-1;
-				for(int i=0;i<node.getChildCount();i++)
-				{
-					
-					if(ContactPanel.tree.getLastSelectedPathComponent().toString().equals(node.getChildAt(i).toString()))
-					{
-						//如果选的是父节点就退出操作
-						return;
-						
-					}
-					
-					
-					if(node.getChildAt(i).toString().equals(MOVE.getSelectedItem().toString()))
-							{
-							index=i;
-							
-							//记录移动目的组的index
-						
-							
-							}
-					
-				
-					
-				}
-				DefaultMutableTreeNode getSelect=(DefaultMutableTreeNode)ContactPanel.tree.getLastSelectedPathComponent();
-				DefaultMutableTreeNode getTo=(DefaultMutableTreeNode)node.getChildAt(index);
-				DefaultMutableTreeNode newNode=new DefaultMutableTreeNode(ContactPanel.tree.getLastSelectedPathComponent());
-				
-				System.out.println(getSelect);
-				System.out.println(getTo);
-				System.out.println(getTo.getChildCount());
-				tmp.insertNodeInto(newNode, getTo,getTo.getChildCount());
-				tmp.removeNodeFromParent((DefaultMutableTreeNode)CP.tree.getLastSelectedPathComponent());
-				
-				
-				
-				CP.tree.revalidate();
-				//CP.tree.updateUI();  不能updateUI，不然失去对其效果
-				
-				CP.tree.repaint();
-					
-				}
-				
-				
-			}
-		});
 		
 		
 		
@@ -498,26 +416,6 @@ public class UI extends JFrame{
 		DefaultComboBoxModel CB=new DefaultComboBoxModel();
 		for(int i=0;i<node.getChildCount();i++)
 			CB.addElement(node.getChildAt(i).toString());
-		MOVE.setModel(CB);
-		MOVE.setBounds(375, 500, 94, 21);
-		
-		
-		getContentPane().add(MOVE);
-		
-		JButton addContactGroupbutton = new JButton("添加分组");
-		addContactGroupbutton.setVisible(false);
-		addContactGroupbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ContactGroupAdd fa=new ContactGroupAdd();
-				fa.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				fa.setSize(500, 300);
-				fa.setLocale(null);
-				fa.setVisible(true);
-				
-			}
-		});
-		addContactGroupbutton.setBounds(97, 499, 81, 23);
-		getContentPane().add(addContactGroupbutton);
 		
 		JButton closeButton = new JButton("关闭");
 		closeButton.addActionListener(new ActionListener() {
@@ -535,6 +433,16 @@ public class UI extends JFrame{
 		backImage.setIcon(new ImageIcon(UI.class.getResource("/tab/backCover.png")));
 		backImage.setBounds(300, 0, 550, 500);
 		getContentPane().add(backImage);
+		
+		JButton QueryInfo = new JButton("查看资料");
+		QueryInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showOtherPersonInfo a=new showOtherPersonInfo();
+				a.Personframe.setVisible(true);
+			}
+		});
+		QueryInfo.setBounds(99, 499, 159, 23);
+		getContentPane().add(QueryInfo);
 		
 	
 

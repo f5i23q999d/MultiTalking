@@ -2,6 +2,7 @@ package group.li;
 
 import javax.swing.JPanel;
 
+import group.linzx.AttendanceSystem.PermanentCalendar;
 import group.linzx.personInfo.showPersonInfo;
 
 import java.awt.GridLayout;
@@ -16,7 +17,7 @@ public class SettingPanel extends JFrame{
 		
 		System.err.println(UI.rights);
 		setResizable(false);
-		getContentPane().setLayout(new GridLayout(7, 1, 0, 0));
+		getContentPane().setLayout(new GridLayout(8, 1, 0, 0));
 		
 		JButton createGroup = new JButton("创建讨论组");
 		createGroup.addActionListener(new ActionListener() {
@@ -31,6 +32,16 @@ public class SettingPanel extends JFrame{
 		});
 		
 		JButton button = new JButton("签到打卡");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				 PermanentCalendar check=new PermanentCalendar();
+				 check.setVisible(true);
+				
+				
+			}
+		});
 		getContentPane().add(button);
 		getContentPane().add(createGroup);
 	
@@ -40,7 +51,7 @@ public class SettingPanel extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				MessageManager SM=new MessageManager();
 				SM.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				SM.setSize(400, 550);
+				SM.setSize(500, 550);
 				SM.setLocale(null);
 				SM.setVisible(true);
 				
@@ -72,6 +83,9 @@ public class SettingPanel extends JFrame{
 		getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("账号信息修改");
+		getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("打卡情况查看");
 		getContentPane().add(btnNewButton_1);
 		}
 	}

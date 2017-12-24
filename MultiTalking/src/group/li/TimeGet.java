@@ -13,6 +13,22 @@ public class TimeGet {
 	return time;
 	}
 	
+	static public String FullTime()
+	{
+	Date date=new Date();
+	String dateStr = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
+
+	return dateStr;
+	}
+	
+	static public String dayTime()
+	{
+	Date date=new Date();
+	String dateStr = new SimpleDateFormat("MMdd").format(date);
+
+	return dateStr;
+	}
+	
 	public static void main(String[] args)
 	{
 		

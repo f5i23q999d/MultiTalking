@@ -28,7 +28,7 @@ import group.linzx.personInfo.GetImageFromServer;
 public class ContactPanel extends JScrollPane{
 	
 	JScrollPane scrollPane;//创建滚动条方便同一panel内显示
-	static JTree tree= new JTree();//好友列表
+	public static JTree tree= new JTree();//好友列表
 	static String selectedID;
 	static int number;
 	String ID;

@@ -9,14 +9,15 @@ import group.lin.base.BaseDAO;
 import group.lin.entity.UserDAO;
 import group.lin.entity.ChatRecordDAO;
 import group.lin.entity.ContactDAO;
+import group.lin.entity.TaskCDAO;
 import group.lin.entity.TaskDAO;
 
-public class QueryApplyDAO extends BaseDAO {
-	private static QueryApplyDAO rd = null;
+public class QueryConsentDAO extends BaseDAO {
+	private static QueryConsentDAO rd = null;
 	
-	public static synchronized QueryApplyDAO getInstance() {
+	public static synchronized QueryConsentDAO getInstance() {
 		if(rd == null) {
-			rd = new QueryApplyDAO();
+			rd = new QueryConsentDAO();
 		}
 		return rd;
 	}
@@ -30,8 +31,8 @@ public class QueryApplyDAO extends BaseDAO {
 			return result;
 		}
 		
-		List<TaskDAO> list = new ArrayList<TaskDAO>(); 
-		String sql="select * from Task where Receiver=?";
+		List<TaskCDAO> list = new ArrayList<TaskCDAO>(); 
+		String sql="select * from TaskConfirm where Receiver=?";
 		Object[] param = {user.getUserId()};
 		rs = db.executeQuery(sql, param);
 		try{
@@ -58,35 +59,30 @@ public class QueryApplyDAO extends BaseDAO {
 	}
 
 	//将list值放到result中。
-	private void buildResult(String[][] result, List<TaskDAO> list, int j) {
+	private void buildResult(String[][] result, List<TaskCDAO> list, int j) {
 		// TODO Auto-generated method stub
-		TaskDAO cr = list.get(j);
+		TaskCDAO cr = list.get(j);
 		
 		
-		result[j]= new String[7];
+		result[j]= new String[4];
 		result[j][0] = cr.getSender();
 		result[j][1] = cr.getReceiver();
-		result[j][2] = cr.getTime();
-		result[j][3] = cr.getContext();
-		result[j][4] = cr.getAttachment();
-		result[j][5] = cr.getTitle();
-		result[j][6] = String.valueOf(cr.getState());		
+		result[j][2] = cr.getTitle();
+		result[j][3] = String.valueOf(cr.getConsent());		
 	
 		
 	}
 
 	//将rs中的记录放到ChatRecordList中。
-	private void buildList(ResultSet rs, List<TaskDAO> list, int i) throws SQLException {
+	private void buildList(ResultSet rs, List<TaskCDAO> list, int i) throws SQLException {
 		// TODO Auto-generated method stub
-		TaskDAO cr = new TaskDAO();
+		TaskCDAO cr = new TaskCDAO();
 		
 		cr.setSender(rs.getString("Sender"));
 		cr.setReceiver(rs.getString("Receiver"));
-		cr.setTime(rs.getString("Time"));
-		cr.setContext(rs.getString("Context"));
-		cr.setAttachment(rs.getString("Attachment"));
 		cr.setTitle(rs.getString("Title"));
-		cr.setState(rs.getInt("State"));
+		cr.setConsent(rs.getInt("Consent"));
+	
 		list.add(cr);
 		
 	}

@@ -33,7 +33,7 @@ import group.lin.util.DBUtil;
  * 调用要求：必须告知该类调用的用户名称username
  */
 
-public class showPersonInfo {
+public class showOtherPersonInfo {
 	public static String ResetURL;
 	public static int isnull = 0;
 	public static JFrame Personframe;
@@ -45,6 +45,7 @@ public class showPersonInfo {
 	public String DBtele = "";
 	public String DBintroduction = "";
 	public String DBportrait="";
+	public String DBdepartment="";
 
 	/**
 	 * Launch the application.
@@ -53,7 +54,7 @@ public class showPersonInfo {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					showPersonInfo window = new showPersonInfo();
+					showOtherPersonInfo window = new showOtherPersonInfo();
 					window.Personframe.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +66,7 @@ public class showPersonInfo {
 	/**
 	 * Create the application.
 	 */
-	public showPersonInfo() {
+	public showOtherPersonInfo() {
 		initialize();
 
 	}
@@ -81,7 +82,7 @@ public class showPersonInfo {
 		
 		String[] o= {""};
 	
-		o[0]=UI.ID;
+		o[0]=UI.CP.tree.getLastSelectedPathComponent().toString();
 		
 		try {
 			ResultSet rs = db.executeQuery("select * from USER where userId=?",o);
@@ -93,6 +94,12 @@ public class showPersonInfo {
 				ResetURL=DBportrait;
 				
 			}
+			
+			rs = db.executeQuery("select * from CONTACT where receiverId=?",o);
+			if (rs.next())
+				DBdepartment=rs.getString(4);
+			
+			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -118,39 +125,6 @@ public class showPersonInfo {
 		Personframe.getContentPane().add(UserName);
 		UserName.setText(DBuserId);
 
-		/*
-		 * 修改图片
-		 */
-		JButton btnNewButton = new JButton("Change Image");
-		btnNewButton.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				/*
-				 * JFileChooser chooser = new JFileChooser(); //创建选择文件对象
-				 * chooser.setMultiSelectionEnabled(false);
-				 * chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); int result
-				 * 
-				 * chooser.setDialogTitle("请选择文件");//设置标题
-				 * chooser.setMultiSelectionEnabled(true); //设置只能选择文件 FileNameExtensionFilter
-				 * filter = new FileNameExtensionFilter("jpg", "jpg");//定义可选择文件类型
-				 * chooser.setFileFilter(filter); //设置可选择文件类型 chooser.showOpenDialog(null);
-				 * //打开选择文件对话框,null可设置为你当前的窗口JFrame或Frame File file = chooser.getSelectedFile();
-				 * //file为用户选择的图片文件
-				 */
-				//getPhotoLbl(lblNewLabel, db);
-				ChangePortraits a=new ChangePortraits();
-				a.frame.setVisible(true);
-				//ResetURL=a.url;
-				//lblNewLabel.setIcon(new ImageIcon(GetImageFromServer.getImageFromServer(ResetURL)));
-				//Personframe.repaint();
-				
-			}
-		});
-		btnNewButton.setBackground(new Color(192, 192, 192));
-		btnNewButton.setBounds(419, 207, 155, 35);
-		Personframe.getContentPane().add(btnNewButton);
-
 		JLabel lblTel = new JLabel("Tel：");
 		lblTel.setFont(new Font("微软雅黑", Font.BOLD, 22));
 		lblTel.setForeground(new Color(255, 255, 255));
@@ -164,34 +138,17 @@ public class showPersonInfo {
 		Personframe.getContentPane().add(lblIntroduction);
 
 		JTextArea introduction = new JTextArea();
+		introduction.setEditable(false);
 		introduction.setBounds(316, 347, 226, 93);
 		Personframe.getContentPane().add(introduction);
 		introduction.setText(DBintroduction);
 
 		tele = new JTextField();
+		tele.setEditable(false);
 		tele.setBounds(316, 296, 226, 28);
 		Personframe.getContentPane().add(tele);
 		tele.setColumns(10);
 		tele.setText(DBtele);
-		
-		
-
-		/*
-		 * 编辑文本框内容
-		 */
-		JButton btnExit = new JButton("Edit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				tele.setEditable(true);
-				introduction.setEditable(true);
-
-			}
-		});
-		btnExit.setForeground(Color.WHITE);
-		btnExit.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnExit.setBackground(new Color(192, 192, 192));
-		btnExit.setBounds(598, 472, 68, 47);
-		Personframe.getContentPane().add(btnExit);
 
 		/*
 		 * 关闭当前窗口
@@ -216,37 +173,23 @@ public class showPersonInfo {
 		System.out.println(ResetURL);
 		po.setBounds(151, 54, 201, 186);
 		Personframe.getContentPane().add(po);
+		
+		JLabel label = new JLabel("部门：");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("微软雅黑", Font.BOLD, 22));
+		label.setBounds(442, 147, 85, 60);
+		Personframe.getContentPane().add(label);
+		
+		JLabel department = new JLabel(DBdepartment);
+		department.setForeground(Color.WHITE);
+		department.setFont(new Font("微软雅黑", Font.BOLD, 22));
+		department.setBounds(550, 147, 218, 60);
+		Personframe.getContentPane().add(department);
 
 		/*
 		 * 确认修改信息
 		 */
 		String[] o1 = new String[4];
-		JButton btnApply = new JButton("Apply");
-		btnApply.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				o1[0] = tele.getText();
-				o1[1] = introduction.getText();
-				o1[2]= ResetURL;
-				o1[3]= UI.ID;
-				System.err.println(ResetURL+"上传成功");
-				db.executeUpdate("update USER set tele=?,introduction=?,portrait=? where userId=?", o1); // ？不可加单引号
-				tele.setEditable(false);
-				introduction.setEditable(false);
-				
-				
-				UI.setPortrait();
-				ImageIcon  u2=new ImageIcon(GetImageFromServer.getImageFromServer(ResetURL));
-				//下面这行表示按比例缩放图片
-				u2.setImage(u2.getImage().getScaledInstance(200, 200,  Image.SCALE_DEFAULT));
-				po.setIcon(u2);
-				
-			}
-		});
-		btnApply.setForeground(Color.WHITE);
-		btnApply.setFont(new Font("Utsaah", Font.BOLD, 23));
-		btnApply.setBackground(new Color(192, 192, 192));
-		btnApply.setBounds(494, 472, 81, 47);
-		Personframe.getContentPane().add(btnApply);
 		
 		
 		
