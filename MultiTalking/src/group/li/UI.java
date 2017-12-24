@@ -373,7 +373,7 @@ public class UI extends JFrame{
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SP=new SettingPanel();
-				SP.setSize(200, 200);
+				SP.setSize(200, 300);
 				//SP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				SP.setLocale(null);
 				SP.setVisible(true);

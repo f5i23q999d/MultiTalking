@@ -86,7 +86,17 @@ public class SettingPanel extends JFrame{
 		getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("打卡情况查看");
-		getContentPane().add(btnNewButton_1);
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ShowCheckIn SM=new ShowCheckIn();
+				SM.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				SM.setSize(500, 550);
+				SM.setLocale(null);
+				SM.setVisible(true);
+			}
+		});
+		getContentPane().add(btnNewButton_2);
 		}
 	}
 
